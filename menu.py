@@ -87,5 +87,6 @@ def main():
         elif opcion == 11:
             print()
             # funciones.mostrarRankingArtistas()
+        opcion = menu()
 
 main()
