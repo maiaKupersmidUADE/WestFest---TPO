@@ -1,3 +1,5 @@
+import funciones
+
 def opciones_menu():
     # Funcion que muestra las opciones del menu
     print("-" * 50)
@@ -29,6 +31,27 @@ def menu():
     return opcion
 
 def main():
+    franjas = [("F01", "Mediodia"), ("F02", "Tarde"), ("F03", "Noche")]
+    escenarios = [("E01", "Main Stage"), ("E02", "Electronic Arena"), ("E03", "Mata Club")]
+    artistas = [("A01", "Lady Gagá"), ("A02", "50 pesos"), ("A03", "Me robaron entre 5"), ("A04", "Miley Ciruja"), ("A05", "21 pilotos de Ezeiza"), 
+        ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso")]
+
+    lineup_sabado = [
+        ["A01", "A02", "A03", "A04"],
+        ["A05", "A06", "A07", "A08"],
+        ["A09", "A10", "", ""]
+    ]
+
+    lineup_domingo = [
+        ["A10", "A09", "A08", "A07"],
+        ["A06", "A05", "A04", "A03"],
+        ["A02", "A01", "", ""]
+    ]
+
+    # HECHAS POR COMPRENSION
+    asistencia_sabado = [[-1 for j in range(len(franjas))] for i in range(len(escenarios))]
+    asistencia_domingo = [[-1 for j in range(len(franjas))] for i in range(len(escenarios))]
+
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
