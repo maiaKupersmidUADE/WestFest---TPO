@@ -20,7 +20,7 @@ def menu():
     while opcion < 0 or opcion > 6:
         print("Error, la opcion elegida debe estar entre 0 y 6")
         opciones_menu()
-        opcion = int(input("Seleccione una opcion"))
+        opcion = int(input("Seleccione una opcion: "))
     return opcion
 
 def main():
