@@ -24,7 +24,6 @@ def menu():
     return opcion
 
 def main():
-<<<<<<< HEAD
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
@@ -43,8 +42,7 @@ def main():
             print()
             # funciones.consultarInformes()
             # PARA MI HAY QUE SEPARAR TODOS LOS INFORMES
-=======
+            #prueba
     
->>>>>>> 1ebffd272354e854cfad64f5b17dd0cf4002f305
 
 main()
