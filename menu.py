@@ -24,6 +24,23 @@ def menu():
     return opcion
 
 def main():
-    pass
+    opcion = menu()
+    while opcion != 0:
+        if opcion == 1:
+            print()
+            # funciones.consultarLineUp()
+        elif opcion == 2:
+            print()
+            # funciones.buscarArtista()
+        elif opcion == 3:
+            print()
+            # funciones.registrarAsistencia()
+        elif opcion == 4:    
+            print()
+            # funciones.modificarAsistencia
+        elif opcion == 5:
+            print()
+            # funciones.consultarInformes()
+            # PARA MI HAY QUE SEPARAR TODOS LOS INFORMES
 
 main()
