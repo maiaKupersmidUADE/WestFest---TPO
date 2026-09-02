@@ -37,15 +37,15 @@ def main():
         ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso")]
 
     lineup_sabado = [
-        ["A01", "A02", "A03", "A04"],
-        ["A05", "A06", "A07", "A08"],
-        ["A09", "A10", "", ""]
+        ["A01", "A02", "A03"],
+        ["A05", "A06", "A07"],
+        ["A09", "A10", ""]
     ]
 
     lineup_domingo = [
-        ["A10", "A09", "A08", "A07"],
-        ["A06", "A05", "A04", "A03"],
-        ["A02", "A01", "", ""]
+        ["A10", "A09", "A08"],
+        ["A06", "A05", "A04"],
+        ["A02", "A01", ""]
     ]
 
     # HECHAS POR COMPRENSION
