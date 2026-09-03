@@ -34,7 +34,8 @@ def main():
     franjas = [("F01", "Mediodia"), ("F02", "Tarde"), ("F03", "Noche")]
     escenarios = [("E01", "Main Stage"), ("E02", "Electronic Arena"), ("E03", "Mata Club")]
     artistas = [("A01", "Lady Gagá"), ("A02", "50 pesos"), ("A03", "Me robaron entre 5"), ("A04", "Miley Ciruja"), ("A05", "21 pilotos de Ezeiza"), 
-        ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso")]
+        ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso"), ("A11", "Ariana Chiquita"),
+        ("A12", "Conejo Malo"), ("A12", "")]
 
     lineup_sabado = [
         ["A01", "A02", "A03"],
@@ -62,7 +63,7 @@ def main():
             # funciones.consultarLineUp()
         elif opcion == 3:
             print()
-            # funciones.buscarArtista()
+            funciones.buscarArtista(artistas)
         elif opcion == 4:    
             print()
             # funciones.registrarAsistencia()
