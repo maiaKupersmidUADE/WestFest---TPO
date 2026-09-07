@@ -1,8 +1,12 @@
 def asignarLineUp():
     pass
 
-def consultarLineUp():
-    pass
+def consultarLineUp(LUS, LUD, E, A, H):
+    for i in range(len(LUS)):
+        for j in range(len(LUS[i])):
+            print(f"Sabado {H[j][1]}: nombre en el escenario {E[i][1]}")
+
+            ### FORMATEAR LA SALIDA
 
 def buscarArtista(artistas):
     codigo = input("Ingrese el código del artista a buscar: ")
