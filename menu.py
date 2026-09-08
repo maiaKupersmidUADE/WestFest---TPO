@@ -57,13 +57,16 @@ def main():
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
-            print()
-            # funciones.asignarLineUp()
+            funciones.asignarLineUp(artistas, lineup_sabado, lineup_domingo, escenarios, franjas)
         elif opcion == 2:
             funciones.consultarLineUp(lineup_sabado, lineup_domingo, escenarios, artistas, franjas)
         elif opcion == 3:
-            print()
-            funciones.buscarArtista(artistas)
+            codArtista = input("Codigo de Artista a buscar: ").upper()
+            indice = funciones.obtenerIndex(artistas, codArtista, 0)
+            if indice != None:
+                print(f"Artista encontrado: {artistas[indice][1]}")
+            else:
+                print("El artista que busca no existe o se ingreso mal el codigo")
         elif opcion == 4:    
             print()
             # funciones.registrarAsistencia()
@@ -74,8 +77,10 @@ def main():
             print()
             # funciones.consultarArtistaMayorConvocatoria()
         elif opcion == 7:
-            print()
-            # funciones.consultarAsistenciaTotalPorDia()
+            totalS = funciones.obtenerTotal(asistencia_sabado)
+            totalD = funciones.obtenerTotal(asistencia_domingo)
+            print(f"Asistencia total del sabado: {totalS}")
+            print(f"Asistencia total del domingo: {totalD}")
         elif opcion == 8:
             print()
             # funciones.consultarTop3ArtistasMayorConvocatoria()
