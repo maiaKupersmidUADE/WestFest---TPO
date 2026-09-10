@@ -38,6 +38,7 @@ def main():
         ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso"), ("A11", "Ariana Chiquita"),
         ("A12", "Conejo Malo"),]
 
+    capacidadEscenario = 1000
     lineup_sabado = [
         ["A01", "A02", "A03"],
         ["A05", "A06", "A07"],
@@ -68,11 +69,9 @@ def main():
             else:
                 print("El artista que busca no existe o se ingreso mal el codigo")
         elif opcion == 4:    
-            print()
-            # funciones.registrarAsistencia()
+            funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 5:
-            print()
-            # funciones.modificarAsistencia()
+            funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 6:
             print()
             # funciones.consultarArtistaMayorConvocatoria()

@@ -100,11 +100,99 @@ def obtenerTotal(matriz):
                 total += matriz[i][j]
     return total
 
-'''            
-def registrarAsistencia(): 
 
-def modificarAsistencia():
+def pedir_entero_positivo(mensaje):
+    #Función con try/except para pedir números de manera segura
+    while True:
+        try:
+            num = int(input(mensaje))
+            if num >= 0:
+                return num
+            print("Error: La cantidad de espectadores no puede ser negativa.")
+        except ValueError:
+            print("Error: Debe ingresar un número entero válido.")
+       
+def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
+    dia = input("¿De qué día querés registrar asistencia? (SABADO/DOMINGO): ").upper()
+    while dia != "SABADO" and dia != "DOMINGO":
+        dia = input("Día inválido. Ingrese SABADO o DOMINGO: ").upper()
 
+    horario = input("¿En qué horario? (Mediodia/Tarde/Noche): ").capitalize()
+    indiceHorario = obtenerIndex(H, horario, 1)
+    while indiceHorario is None:
+        horario = input("Horario inválido. Ingrese (Mediodia/Tarde/Noche): ").capitalize()
+        indiceHorario = obtenerIndex(H, horario, 1)
+
+    escenario = input("¿En qué escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
+    indiceEscenario = obtenerIndex(E, escenario, 1)
+    while indiceEscenario is None:
+        escenario = input("Escenario inválido. Ingrese (Main Stage/Electronic Arena/Mata Club): ").title()
+        indiceEscenario = obtenerIndex(E, escenario, 1)
+
+    lineup = LUS if dia == "SABADO" else LUD
+    asistencia_matriz = AS if dia == "SABADO" else AD
+
+    if lineup[indiceEscenario][indiceHorario] == "":
+        print(f"No hay ningún artista asignado el {dia.lower()} en {escenario} ({horario}).")
+        return
+
+    if asistencia_matriz[indiceEscenario][indiceHorario] >= 0:
+        actual = asistencia_matriz[indiceEscenario][indiceHorario]
+        print(f"El show ya tiene asistencia registrada ({actual} espectadores). Utilice la opción 'Modificar asistencia'.")
+        return
+
+    espectadores = pedir_entero_positivo("Ingrese la cantidad de espectadores: ")
+
+    asistencia_matriz[indiceEscenario][indiceHorario] = espectadores
+    print(f"Asistencia de {espectadores} espectadores registrada.")
+
+    if espectadores > capacidad_maxima:
+        print(f" Atención: Se superó la capacidad del escenario ({capacidad_maxima} espectadores).")
+
+
+def modificarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
+    
+    dia = input("¿De qué día querés modificar la asistencia? (SABADO/DOMINGO): ").upper()
+    while dia != "SABADO" and dia != "DOMINGO":
+        dia = input("Día no válido o inexistente. Ingrese SABADO o DOMINGO: ").upper()
+
+    horario = input("¿En qué horario? (Mediodia/Tarde/Noche): ").capitalize()
+    indiceHorario = obtenerIndex(H, horario, 1)
+    while indiceHorario is None:
+        horario = input("Horario no válido o inexistente. Ingrese (Mediodia/Tarde/Noche): ").capitalize()
+        indiceHorario = obtenerIndex(H, horario, 1)
+
+    escenario = input("¿En qué escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
+    indiceEscenario = obtenerIndex(E, escenario, 1)
+    while indiceEscenario is None:
+        escenario = input("Escenario no válido o inexistente. Ingrese (Main Stage/Electronic Arena/Mata Club): ").title()
+        indiceEscenario = obtenerIndex(E, escenario, 1)
+
+    lineup = LUS if dia == "SABADO" else LUD
+    asistencia_matriz = AS if dia == "SABADO" else AD
+
+    if lineup[indiceEscenario][indiceHorario] == "":
+        print(f"No hay ningún artista asignado el {dia.lower()} en {escenario} ({horario}).")
+        return
+
+    if asistencia_matriz[indiceEscenario][indiceHorario] < 0:
+        print("Este show aún no posee asistencia registrada. Utilice la opción 'Registrar asistencia'.")
+        return
+
+    actual = asistencia_matriz[indiceEscenario][indiceHorario]
+    print(f"Asistencia registrada actualmente: {actual} espectadores.")
+
+    nueva_asistencia = pedir_entero_positivo("Ingrese la nueva cantidad de espectadores: ")
+
+    asistencia_matriz[indiceEscenario][indiceHorario] = nueva_asistencia
+    print(f"Asistencia actualizada correctamente a {nueva_asistencia} espectadores")
+
+    if nueva_asistencia > capacidad_maxima:
+        print(f"Atención: Se superó la capacidad del escenario ({capacidad_maxima} espectadores).")
+
+
+
+'''
 def consultarArtistaMayorConvocatoria():
 
 def consultarTop3ArtistasMayorConvocatoria():  
