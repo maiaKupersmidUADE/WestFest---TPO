@@ -82,11 +82,9 @@ def main():
         elif opcion == 8:
             funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
-            print()
-            # funciones.consultarShowsSobrepasaronCapacidad()
+            funciones.consultarShowsSobrepasaronCapacidad()
         elif opcion == 10:
-            print()
-            # funciones.consultarTop3FranjasHorariasMayorAsistencia()
+            funciones.consultarTop3FranjasHorariasMayorAsistencia()
         opcion = menu()
     print("Gracias por usar nuestro sistema, hasta la proxima!")
     print()
