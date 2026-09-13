@@ -191,12 +191,78 @@ def modificarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
         print(f"Atención: Se superó la capacidad del escenario ({capacidad_maxima} espectadores).")
 
 
+def obtenerConvocatorias(A, LUS, LUD, AS, AD):
+    convocatorias = []
+
+    for c in range(len(A)):
+        codigo = A[c][0]
+        convocatoria = 0
+
+        for i in range(len(LUS)):
+            for j in range(len(LUS[i])):
+                if LUS[i][j] == codigo:
+                    if AS[i][j] >= 0:
+                        convocatoria += AS[i][j]
+
+        for i in range(len(LUD)):
+            for j in range(len(LUD[i])):
+                if LUD[i][j] == codigo:
+                    if AD[i][j] >= 0:
+                        convocatoria += AD[i][j]
+
+        if convocatoria > 0:
+            convocatorias.append((codigo, convocatoria))
+
+
+    convocatorias.sort(key=lambda x: x[1], reverse=True)
+
+    return convocatorias
+
+
+def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
+    convocatorias = obtenerConvocatorias(A, LUS, LUD, AS, AD)
+
+    if len(convocatorias) == 0:
+        print()
+        print("No hay artistas con asistencia registrada.")
+
+    else:
+        codigo = convocatorias[0][0]
+        convocatoria = convocatorias[0][1]
+
+        indice = obtenerIndex(A, codigo, 0)
+
+        print()
+        print("ARTISTA CON MAYOR CONVOCATORIA")
+        print("-" * 40)
+        print(f"Artista: {A[indice][1]}")
+        print(f"Convocatoria: {convocatoria} espectadores")
+        print()
+
+
+def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
+    convocatorias = obtenerConvocatorias(A, LUS, LUD, AS, AD)
+
+    if len(convocatorias) < 3:
+        print()
+        print("No hay suficientes artistas con asistencia registrada para mostrar el Top 3.")
+
+    else:
+        print()
+        print("TOP 3 ARTISTAS CON MAYOR CONVOCATORIA")
+        print("-" * 45)
+
+        for i in range(3):
+            codigo = convocatorias[i][0]
+            convocatoria = convocatorias[i][1]
+
+            indice = obtenerIndex(A, codigo, 0)
+
+            print(f"{i + 1}. {A[indice][1]} - {convocatoria} espectadores")
+            print()
+
 
 '''
-def consultarArtistaMayorConvocatoria():
-
-def consultarTop3ArtistasMayorConvocatoria():  
-
 def consultarShowsSobrepasaronCapacidad():
 
 def consultarTop3FranjasHorariasMayorAsistencia():

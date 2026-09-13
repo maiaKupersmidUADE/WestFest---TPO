@@ -73,16 +73,14 @@ def main():
         elif opcion == 5:
             funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 6:
-            print()
-            # funciones.consultarArtistaMayorConvocatoria()
+            funciones.consultarArtistaMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 7:
             totalS = funciones.obtenerTotal(asistencia_sabado)
             totalD = funciones.obtenerTotal(asistencia_domingo)
             print(f"Asistencia total del sabado: {totalS}")
             print(f"Asistencia total del domingo: {totalD}")
         elif opcion == 8:
-            print()
-            # funciones.consultarTop3ArtistasMayorConvocatoria()
+            funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
             print()
             # funciones.consultarShowsSobrepasaronCapacidad()
@@ -91,5 +89,6 @@ def main():
             # funciones.consultarTop3FranjasHorariasMayorAsistencia()
         opcion = menu()
     print("Gracias por usar nuestro sistema, hasta la proxima!")
+    print()
 
 main()
