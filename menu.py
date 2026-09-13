@@ -2,7 +2,7 @@ import funciones
 
 def opciones_menu():
     print("-" * 50)
-    print("                 MENU DE CONTENIDOS")
+    print(" " * 16, "MENU DE CONTENIDOS")
     print("-" * 50)
     print("Seleccione una opcion:")
     print("1. Asignar / Modificar Line Up")
