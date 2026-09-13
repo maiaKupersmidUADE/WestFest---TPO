@@ -102,16 +102,16 @@ def obtenerTotal(matriz):
 
 
 def pedir_entero_positivo(mensaje):
-    #Función con try/except para pedir números de manera segura
-    while True:
-        try:
-            num = int(input(mensaje))
-            if num >= 0:
-                return num
-            print("Error: La cantidad de espectadores no puede ser negativa.")
-        except ValueError:
-            print("Error: Debe ingresar un número entero válido.")
-       
+    num = int(input(mensaje))
+
+    while num < 0:
+        print()
+        print("Error: La cantidad de espectadores no puede ser negativa.")
+        num = int(input(mensaje))
+
+    return num
+
+
 def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
     dia = input("¿De qué día querés registrar asistencia? (SABADO/DOMINGO): ").upper()
     while dia != "SABADO" and dia != "DOMINGO":

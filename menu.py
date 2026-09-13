@@ -19,16 +19,16 @@ def opciones_menu():
     print("-" * 50)
     
 def menu():    
-    while True:
+    opciones_menu()
+    opcion = int(input("Opcion: "))
+
+    while opcion < 0 or opcion > 10:
+        print()
+        print("Error, la opción elegida debe estar entre 0 y 10.")
+        print()
         opciones_menu()
-        try:
-            opcion = int(input("Opcion: "))
-            if opcion >= 0 and opcion <= 10:
-                break
-            else:
-                print("Error, la opción elegida debe estar entre 0 y 10.")
-        except ValueError:
-            print("Error, debe ingresar un número.")
+        opcion = int(input("Opcion: "))
+        
     return opcion
 
 def main():
