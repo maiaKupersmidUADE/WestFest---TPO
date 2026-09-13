@@ -63,11 +63,7 @@ def main():
             funciones.consultarLineUp(lineup_sabado, lineup_domingo, escenarios, artistas, franjas)
         elif opcion == 3:
             codArtista = input("Codigo de Artista a buscar: ").upper()
-            indice = funciones.obtenerIndex(artistas, codArtista, 0)
-            if indice != -1:
-                print(f"Artista encontrado: {artistas[indice][1]}")
-            else:
-                print("El artista que busca no existe o se ingreso mal el codigo")
+            funciones.buscarArtista(artistas, codArtista, lineup_sabado, lineup_domingo, escenarios, franjas)
         elif opcion == 4:    
             funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 5:
