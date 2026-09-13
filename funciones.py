@@ -84,9 +84,11 @@ def consultarLineUp(LUS, LUD, E, A, H):
 
 def obtenerIndex(lista, buscar, posicion):
     indice = -1
+    i = 0
     while i < len(lista) and indice == -1:
         if lista[i][posicion] == buscar:
-            indice = i   
+            indice = i 
+        i += 1  
     return indice
 
 def obtenerTotal(matriz):

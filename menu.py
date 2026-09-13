@@ -64,7 +64,7 @@ def main():
         elif opcion == 3:
             codArtista = input("Codigo de Artista a buscar: ").upper()
             indice = funciones.obtenerIndex(artistas, codArtista, 0)
-            if indice != None:
+            if indice != -1:
                 print(f"Artista encontrado: {artistas[indice][1]}")
             else:
                 print("El artista que busca no existe o se ingreso mal el codigo")
@@ -82,9 +82,9 @@ def main():
         elif opcion == 8:
             funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
-            funciones.consultarShowsSobrepasaronCapacidad()
+            funciones.consultarShowsSobrepasaronCapacidad(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 10:
-            funciones.consultarTop3FranjasHorariasMayorAsistencia()
+            funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, franjas)
         opcion = menu()
     print("Gracias por usar nuestro sistema, hasta la proxima!")
     print()
