@@ -1,4 +1,31 @@
-def asignarLineUp(A, LUS, LUD, E, H):
+def obtenerIndex(lista, buscar, posicion):
+    indice = -1
+    i = 0
+    while i < len(lista) and indice == -1:
+        if lista[i][posicion] == buscar:
+            indice = i 
+        i += 1  
+    return indice
+
+def artistaAsignado(lineup, codArtista, indiceHorario):
+    asignado = False
+    for i in range(len(lineup)):
+        if lineup[i][indiceHorario] == codArtista:
+            asignado = True
+    return asignado
+
+def pedir_entero_positivo(mensaje):
+    while True:
+        try:
+            num = int(input(mensaje))
+            if num < 0:
+                print("\nError: La cantidad de espectadores no puede ser negativa.")
+            else:
+                return num
+        except ValueError:
+            print("\nError: Debe ingresar un numero entero valido.")
+
+def asignarLineUp(A, LUS, LUD, AS, AD, E, H):
     codArtista = input("Codigo de Artista a buscar: ").upper()
     art = obtenerIndex(A, codArtista, 0)
     if art == -1:
@@ -18,47 +45,53 @@ def asignarLineUp(A, LUS, LUD, E, H):
             escenario = input("Escenario invalido. ¿En que escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
         indiceEscenario = obtenerIndex(E, escenario, 1)
 
-        if dia == "SABADO":
-            if LUS[indiceEscenario][indiceHorario] == "" and not artistaAsignado(LUS, codArtista, indiceHorario):
-                LUS[indiceEscenario][indiceHorario] = codArtista
-            elif artistaAsignado(LUS, codArtista, indiceHorario):
-                print(f"{A[art][1]} ya esta asignado a otro escenario en ese horario")
-            else:
-                print(f"El sabado en {escenario} {horario} ya hay un artista asignado")
-        else:
-            if LUD[indiceEscenario][indiceHorario] == "" and not artistaAsignado(LUD, codArtista, indiceHorario):
-                LUD[indiceEscenario][indiceHorario] = codArtista
-            elif artistaAsignado(LUD, codArtista, indiceHorario):
-                print(f"{A[art][1]} ya esta asignado a otro escenario en ese horario")
-            else:
-                print(f"El domingo en {escenario} {horario} ya hay un artista asignado")
+        lineup = LUS if dia == "SABADO" else LUD
+        asistencia = AS if dia == "SABADO" else AD
 
-def buscarArtista(A, codArtista, LUS, LUD, E, H):
+        if artistaAsignado(lineup, codArtista, indiceHorario):
+            print(f"{A[art][1]} ya esta asignado a otro escenario en ese horario")
+        else:
+            if lineup[indiceEscenario][indiceHorario] != "":
+                cod_act = lineup[indiceEscenario][indiceHorario]
+                indice_act = obtenerIndex(A, cod_act, 0)
+                nom_act = A[indice_act][1] if indice_act != -1 else cod_act
+                
+                resp = input(f"El {dia.lower()} en {escenario} ({horario}) ya tiene asignado a {nom_act}, ¿quiere reemplazarlo? (S/N): ").upper()
+                if resp != "S":
+                    print("Operacion cancelada.")
+                    return
+
+            # Asigna artista y cambia la asistencia de -2 a -1 inmediatamente
+            lineup[indiceEscenario][indiceHorario] = codArtista
+            asistencia[indiceEscenario][indiceHorario] = -1
+            print(f"Artista {A[art][1]} asignado correctamente.")
+
+def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H):
     indice = obtenerIndex(A, codArtista, 0)
     if indice == -1:
         print("El artista que busca no existe o se ingreso mal el codigo")
     else:
         print(f"Artista: {A[indice][1]}")
+        
+        # Sabado
         for i in range(len(LUS)):
             for j in range(len(LUS[i])):
                 if LUS[i][j] == codArtista:
+                    asist = AS[i][j]
+                    txt_asistencia = f"{asist} espectadores" if asist >= 0 else "Aun no registrada"
                     print("SABADO")
-                    print(f"Escenario: {E[i][1]} - Horario: {H[j][1]}")
+                    print(f"Escenario: {E[i][1]} - Horario: {H[j][1]} - Asistencia: {txt_asistencia}")
                     print()
 
+        # Domingo
         for i in range(len(LUD)):
             for j in range(len(LUD[i])):
                 if LUD[i][j] == codArtista:
+                    asist = AD[i][j]
+                    txt_asistencia = f"{asist} espectadores" if asist >= 0 else "Aun no registrada"
                     print("DOMINGO")
-                    print(f"Escenario: {E[i][1]} - Horario: {H[j][1]}")
+                    print(f"Escenario: {E[i][1]} - Horario: {H[j][1]} - Asistencia: {txt_asistencia}")
                     print()
-
-def artistaAsignado(lineup, codArtista, indiceHorario):
-    asignado = False
-    for i in range(len(lineup)):
-        if lineup[i][indiceHorario] == codArtista:
-            asignado = True
-    return asignado
 
 def consultarLineUp(LUS, LUD, E, A, H):
     print()
@@ -74,11 +107,10 @@ def consultarLineUp(LUS, LUD, E, A, H):
         print(f"{E[i][1]:<25}", end="")
         for j in range(len(LUS[i])):
             codigo = LUS[i][j]
+            nombre = "-"
             for artista in A:
                 if artista[0] == codigo:
                     nombre = artista[1]
-            if codigo == "":
-                nombre = "-"
             print(f"{nombre:<25}", end="")
         print()
 
@@ -95,22 +127,12 @@ def consultarLineUp(LUS, LUD, E, A, H):
         print(f"{E[i][1]:<25}", end="")
         for j in range(len(LUD[i])):
             codigo = LUD[i][j]
+            nombre = "-"
             for artista in A:
                 if artista[0] == codigo:
                     nombre = artista[1]
-            if codigo == "":
-                nombre = "-"
             print(f"{nombre:<25}", end="")
         print()
-
-def obtenerIndex(lista, buscar, posicion):
-    indice = -1
-    i = 0
-    while i < len(lista) and indice == -1:
-        if lista[i][posicion] == buscar:
-            indice = i 
-        i += 1  
-    return indice
 
 def obtenerTotal(matriz):
     total = 0
@@ -119,14 +141,6 @@ def obtenerTotal(matriz):
             if matriz[i][j] >= 0:
                 total += matriz[i][j]
     return total
-
-def pedir_entero_positivo(mensaje):
-    num = int(input(mensaje))
-    while num < 0:
-        print()
-        print("Error: La cantidad de espectadores no puede ser negativa.")
-        num = int(input(mensaje))
-    return num
 
 def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
     dia = input("¿De qué día querés registrar asistencia? (SABADO/DOMINGO): ").upper()
@@ -220,15 +234,15 @@ def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
         print()
         print("No hay artistas con asistencia registrada.")
     else:
-        codigo = convocatorias[0][0]
-        convocatoria = convocatorias[0][1]
-        indice = obtenerIndex(A, codigo, 0)
-
+        max_convocatoria = convocatorias[0][1]
         print()
-        print("ARTISTA CON MAYOR CONVOCATORIA")
+        print("ARTISTA(S) CON MAYOR CONVOCATORIA")
         print("-" * 40)
-        print(f"Artista: {A[indice][1]}")
-        print(f"Convocatoria: {convocatoria} espectadores")
+        print(f"Mayor Convocatoria: {max_convocatoria} espectadores")
+        for item in convocatorias:
+            if item[1] == max_convocatoria:
+                indice = obtenerIndex(A, item[0], 0)
+                print(f"- Artista: {A[indice][1]}")
         print()
 
 def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
@@ -248,20 +262,25 @@ def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
             print(f"{i + 1}. {A[indice][1]} - {convocatoria} espectadores")
             print()
 
-def consultarShowsSobrepasaronCapacidad(LUS, LUD, AS, AD, E, H, capacidad_maxima):
+def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_maxima):
     shows_superados = []
     # sabado
     for i in range(len(LUS)):
         for j in range(len(LUS[i])):
             if LUS[i][j] != "" and AS[i][j] > capacidad_maxima:
-                show = (E[i][1], H[j][1], LUS[i][j], AS[i][j])
+                indice = obtenerIndex(A, LUS[i][j], 0)
+                art_nombre = A[indice][1] if indice != -1 else LUS[i][j]
+                show = ("SÁBADO", E[i][1], H[j][1], art_nombre, AS[i][j])
                 shows_superados.append(show)
     # domingo
     for i in range(len(LUD)):
         for j in range(len(LUD[i])):
             if LUD[i][j] != "" and AD[i][j] > capacidad_maxima:
-                show = (E[i][1], H[j][1], LUD[i][j], AD[i][j])
+                indice = obtenerIndex(A, LUD[i][j], 0)
+                art_nombre = A[indice][1] if indice != -1 else LUD[i][j]
+                show = ("DOMINGO", E[i][1], H[j][1], art_nombre, AD[i][j])
                 shows_superados.append(show)
+
     print()
     print("SHOWS QUE SUPERARON LA CAPACIDAD")
     print("-" * 45)
@@ -271,28 +290,25 @@ def consultarShowsSobrepasaronCapacidad(LUS, LUD, AS, AD, E, H, capacidad_maxima
         print(f"Cantidad de shows que superaron la capacidad: {len(shows_superados)}")
         print()
         for i in range(len(shows_superados)):
-            print(f"Escenario: {shows_superados[i][0]}")
-            print(f"Horario: {shows_superados[i][1]}")
-            print(f"Artista: {shows_superados[i][2]}")
-            print(f"Asistencia: {shows_superados[i][3]} espectadores")
+            print(f"Día: {shows_superados[i][0]}")
+            print(f"Escenario: {shows_superados[i][1]}")
+            print(f"Horario: {shows_superados[i][2]}")
+            print(f"Artista: {shows_superados[i][3]}")
+            print(f"Asistencia: {shows_superados[i][4]} espectadores")
             print()
 
 def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
     asistencia_por_franja = []
     for j in range(len(H)):
         total = 0
-        # sumar asistencia del sabado
         for i in range(len(AS)):
             if AS[i][j] >= 0:
                 total += AS[i][j]
-        # sumar asistencia del domingo
         for i in range(len(AD)):
             if AD[i][j] >= 0:
                 total += AD[i][j]
         asistencia_por_franja.append((H[j][1], total))
-    # ordenar de mayor a menor
     asistencia_por_franja.sort(key=lambda x: x[1], reverse=True)
-    # obtener las 3 franjas con mayor asistencia
     top3 = asistencia_por_franja[:3]
     print()
     print("TOP 3 FRANJAS HORARIAS CON MAYOR ASISTENCIA")

@@ -58,12 +58,12 @@ def main():
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
-            funciones.asignarLineUp(artistas, lineup_sabado, lineup_domingo, escenarios, franjas)
+            funciones.asignarLineUp(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
         elif opcion == 2:
             funciones.consultarLineUp(lineup_sabado, lineup_domingo, escenarios, artistas, franjas)
         elif opcion == 3:
             codArtista = input("Codigo de Artista a buscar: ").upper()
-            funciones.buscarArtista(artistas, codArtista, lineup_sabado, lineup_domingo, escenarios, franjas)
+            funciones.buscarArtista(artistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
         elif opcion == 4:    
             funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 5:
@@ -78,7 +78,7 @@ def main():
         elif opcion == 8:
             funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
-            funciones.consultarShowsSobrepasaronCapacidad(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
+            funciones.consultarShowsSobrepasaronCapacidad(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 10:
             funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, franjas)
         opcion = menu()
