@@ -1,0 +1,59 @@
+
+{
+    "artistas": [
+        {
+            "codigo": "A01",
+            "nombre": "Lady Gaga"
+        },
+        {
+            "codigo": "A02",
+            "nombre": "Artista 2"
+        },
+        {
+            "codigo": "A03",
+            "nombre": "Artista 3"
+        },
+        {
+            "codigo": "A04",
+            "nombre": "Artista 4"
+        }
+    ],
+    "escenarios": [
+        {
+            "codigo": "E01",
+            "nombre": "Escenario Principal",
+            "capacidad_maxima": 50000
+        },
+        {
+            "codigo": "E02",
+            "nombre": "Escenario Secundario",
+            "capacidad_maxima": 20000
+        }
+    ],
+    "franjas_horarias": [
+        {
+            "codigo": "H01",
+            "nombre": "12:00-14:00"
+        },
+        {
+            "codigo": "H02",
+            "nombre": "14:00-16:00"
+        },
+        {
+            "codigo": "H03",
+            "nombre": "16:00-18:00"
+        },
+        {
+            "codigo": "H04",
+            "nombre": "18:00-20:00"
+        },
+        {
+            "codigo": "H05",
+            "nombre": "20:00-22:00"
+        }
+    ],
+    "dias": [
+        "sabado",
+        "domingo"
+    ]
+}
