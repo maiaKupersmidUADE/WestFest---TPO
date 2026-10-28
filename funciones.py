@@ -1,4 +1,4 @@
-def obtenerIndex(lista, buscar, posicion):
+def obtenerIndex(lista, buscar, posicion): # se queda
     indice = -1
     i = 0
     while i < len(lista) and indice == -1:
@@ -7,14 +7,14 @@ def obtenerIndex(lista, buscar, posicion):
         i += 1  
     return indice
 
-def artistaAsignado(lineup, codArtista, indiceHorario):
+def artistaAsignado(lineup, codArtista, indiceHorario): #adaptar a nuevas estructuras
     asignado = False
     for i in range(len(lineup)):
         if lineup[i][indiceHorario] == codArtista:
             asignado = True
     return asignado
 
-def pedir_entero_positivo(mensaje):
+def pedir_entero_positivo(mensaje): # validar con pytest
     while True:
         try:
             num = int(input(mensaje))
@@ -25,7 +25,7 @@ def pedir_entero_positivo(mensaje):
         except ValueError:
             print("\nError: Debe ingresar un numero entero valido.")
 
-def asignarLineUp(A, LUS, LUD, AS, AD, E, H):
+def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y aplicar nuevas validaciones
     codArtista = input("Codigo de Artista a buscar: ").upper()
     art = obtenerIndex(A, codArtista, 0)
     if art == -1:
@@ -66,7 +66,7 @@ def asignarLineUp(A, LUS, LUD, AS, AD, E, H):
             asistencia[indiceEscenario][indiceHorario] = -1
             print(f"Artista {A[art][1]} asignado correctamente.")
 
-def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H):
+def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H): #adaptar a datos recuperados de csv y a diccionarios
     indice = obtenerIndex(A, codArtista, 0)
     if indice == -1:
         print("El artista que busca no existe o se ingreso mal el codigo")
@@ -93,7 +93,7 @@ def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H):
                     print(f"Escenario: {E[i][1]} - Horario: {H[j][1]} - Asistencia: {txt_asistencia}")
                     print()
 
-def consultarLineUp(LUS, LUD, E, A, H):
+def consultarLineUp(LUS, LUD, E, A, H): #ajustar nombres si es necesario
     print()
     print("SÁBADO")
     print("-" * 100)
@@ -134,7 +134,7 @@ def consultarLineUp(LUS, LUD, E, A, H):
             print(f"{nombre:<25}", end="")
         print()
 
-def obtenerTotal(matriz):
+def obtenerTotal(matriz): #contemplar posibles valores 
     total = 0
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
@@ -142,7 +142,7 @@ def obtenerTotal(matriz):
                 total += matriz[i][j]
     return total
 
-def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
+def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima): #actualizar asistencias.csv
     dia = input("¿De qué día querés registrar asistencia? (SABADO/DOMINGO): ").upper()
     while dia != "SABADO" and dia != "DOMINGO":
         dia = input("Día inválido. Ingrese SABADO o DOMINGO: ").upper()
@@ -262,7 +262,7 @@ def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
             print(f"{i + 1}. {A[indice][1]} - {convocatoria} espectadores")
             print()
 
-def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_maxima):
+def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_maxima): #integrarse con alertas y archivo reporte.txt
     shows_superados = []
     # sabado
     for i in range(len(LUS)):
@@ -297,7 +297,7 @@ def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_max
             print(f"Asistencia: {shows_superados[i][4]} espectadores")
             print()
 
-def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
+def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):#combinar dia y franja horaria
     asistencia_por_franja = []
     for j in range(len(H)):
         total = 0
@@ -318,13 +318,13 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
 
 ##NUEVAS FUNCIONES PARA SEGUNDA ETAPA
 
-def cargarConfiguracion():
+def cargarConfiguracion(): #leer arch json 
     pass
 
-def cargarUsuarios():
+def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
     pass
 
-def iniciarSesion():
+def iniciarSesion(): #solicitar usuario y contraseña y validar credenciales antes de mostrar menu
     pass
 
 def cargarLineUp():
@@ -356,5 +356,6 @@ def consultarAsistenciaTotalPorDia():
 def consultarShowsSinAsistencia():
     pass
 
-def generarReporte():
+def generarReporte(): #Crear o sobrescribir reporte.txt con resultados, alertas e incidencias.
     pass
+
