@@ -1,59 +1,38 @@
 
 {
     "artistas": [
-        {
-            "codigo": "A01",
-            "nombre": "Lady Gaga"
-        },
-        {
-            "codigo": "A02",
-            "nombre": "Artista 2"
-        },
-        {
-            "codigo": "A03",
-            "nombre": "Artista 3"
-        },
-        {
-            "codigo": "A04",
-            "nombre": "Artista 4"
-        }
+        {"codigo": "A01", "nombre": "Nombre del artista 1"},
+        {"codigo": "A02", "nombre": "Nombre del artista 2"},
+        {"codigo": "A03", "nombre": "Nombre del artista 3"},
+        {"codigo": "A04", "nombre": "Nombre del artista 4"},
+        {"codigo": "A05", "nombre": "Nombre del artista 5"},
+        {"codigo": "A06", "nombre": "Nombre del artista 6"},
+        {"codigo": "A07", "nombre": "Nombre del artista 7"},
+        {"codigo": "A08", "nombre": "Nombre del artista 8"},
+        {"codigo": "A09", "nombre": "Nombre del artista 9"},
+        {"codigo": "A10", "nombre": "Nombre del artista 10"}
     ],
     "escenarios": [
         {
             "codigo": "E01",
-            "nombre": "Escenario Principal",
-            "capacidad_maxima": 50000
+            "nombre": "Main Stage",
+            "capacidad_maxima": 1000
         },
         {
             "codigo": "E02",
-            "nombre": "Escenario Secundario",
-            "capacidad_maxima": 20000
+            "nombre": "Electronic Arena",
+            "capacidad_maxima": 1000
+        },
+        {
+            "codigo": "E03",
+            "nombre": "Mata Club",
+            "capacidad_maxima": 1000
         }
     ],
-    "franjas_horarias": [
-        {
-            "codigo": "H01",
-            "nombre": "12:00-14:00"
-        },
-        {
-            "codigo": "H02",
-            "nombre": "14:00-16:00"
-        },
-        {
-            "codigo": "H03",
-            "nombre": "16:00-18:00"
-        },
-        {
-            "codigo": "H04",
-            "nombre": "18:00-20:00"
-        },
-        {
-            "codigo": "H05",
-            "nombre": "20:00-22:00"
-        }
+    "franjas": [
+        {"codigo": "F01", "nombre": "Mediodía"},
+        {"codigo": "F02", "nombre": "Tarde"},
+        {"codigo": "F03", "nombre": "Noche"}
     ],
-    "dias": [
-        "sabado",
-        "domingo"
-    ]
+    "dias": ["sabado", "domingo"]
 }
