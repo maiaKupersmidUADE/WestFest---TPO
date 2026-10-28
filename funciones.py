@@ -315,3 +315,46 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
     print("-" * 45)
     for i in range(len(top3)):
         print(f"{i + 1} {top3[i][0]} - {top3[i][1]} espectadores")
+
+##NUEVAS FUNCIONES PARA SEGUNDA ETAPA
+
+def cargarConfiguracion():
+    pass
+
+def cargarUsuarios():
+    pass
+
+def iniciarSesion():
+    pass
+
+def cargarLineUp():
+    pass
+    #lee lineup.csv al iniciar y reconstruye las estructuras
+
+def cargarAsistencia():
+    pass
+    #lee asistencias.csv y recupera lo registrado
+
+def guardarLineUp():
+    pass
+
+def guardarAsistencia():
+    pass
+
+def validarCodigoArtista():
+    pass
+
+def validarCodigoEscenario():
+    pass
+
+def crearDiccionariosAuxiliares():
+    pass
+
+def consultarAsistenciaTotalPorDia():
+    pass
+
+def consultarShowsSinAsistencia():
+    pass
+
+def generarReporte():
+    pass
