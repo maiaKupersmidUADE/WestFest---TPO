@@ -319,68 +319,23 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):#combinar dia y franj
         print(f"{i + 1} {top3[i][0]} - {top3[i][1]} espectadores")
 
 ##NUEVAS FUNCIONES PARA SEGUNDA ETAPA
+def crearDiccionariosAuxiliares(config):
+    dicArtistas = {}
+    for artista in config["artistas"]:
+        dicArtistas[artista["codigo"]] = artista["nombre"]
 
-def validarLista(config, clave, campos):
-    lista = config[clave]
-    codigos_vistos = []
-    try:
-        if len(lista) == 0:
-            raise ValueError(f"'{clave}' debe tener al menos un elemento.")
-        for item in lista:
-            for campo in campos:
-                if item[campo].strip() == "":
-                    raise ValueError(f"En '{clave}' el campo '{campo}' está vacío.")
-            if item["codigo"] in codigos_vistos:
-                raise ValueError(f"En '{clave}' el código {item['codigo']} está repetido.")
-            codigos_vistos.append(item["codigo"])
-    except (TypeError, KeyError, AttributeError):
-        raise ValueError(f"'{clave}' está mal armado: revisá que cada elemento tenga {campos} con texto.")
-
-def validarConfiguracion(config):
-    for clave in ("artistas", "escenarios", "franjas", "dias"):
-        try:
-            if clave not in config:
-                raise ValueError(f"Falta la clave '{clave}' en la configuración.")
-        except TypeError:
-            raise ValueError("El archivo de configuración no tiene el formato esperado.")
-
-    validarLista(config, "artistas", ("codigo", "nombre"))
-    validarLista(config, "escenarios", ("codigo", "nombre"))
-    validarLista(config, "franjas", ("codigo", "nombre"))
-
+    dicEscenarios = {}
     for escenario in config["escenarios"]:
-        try:
-            capacidad = int(escenario["capacidad_maxima"])
-        except (KeyError, TypeError, ValueError):
-            raise ValueError(f"La capacidad del escenario {escenario['codigo']} no es un número válido.")
-        if capacidad <= 0:
-            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser mayor a cero.")
+        dicEscenarios[escenario["codigo"]] = {
+            "nombre": escenario["nombre"],
+            "capacidad_maxima": escenario["capacidad_maxima"]
+        }
 
-    try:
-        if len(config["dias"]) == 0:
-            raise ValueError("'dias' debe tener al menos un día.")
-        for dia in config["dias"]:
-            if dia.strip() == "":
-                raise ValueError("'dias' tiene un día vacío.")
-    except (TypeError, AttributeError):
-        raise ValueError("'dias' debe ser una lista de textos.")
+    dicFranjas = {}
+    for franja in config["franjas"]:
+        dicFranjas[franja["codigo"]] = franja["nombre"]
 
-def cargarConfiguracion():
-    try:
-        with open("configuracion.json", "r", encoding="utf-8") as archivo:
-            config = json.load(archivo)
-        validarConfiguracion(config)
-        return config
-    except FileNotFoundError:
-        print("Error de configuración: no se encontró el archivo configuracion.json")
-    except json.JSONDecodeError:
-        print("Error de configuración: el archivo no es un JSON válido.")
-    except OSError:
-        print("Error de configuración: no se pudo abrir el archivo.")
-    except ValueError as error:
-        print(f"Error de configuración: {error}")
-    return None
-
+    return dicArtistas, dicEscenarios, dicFranjas
 
 def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
     pass
@@ -408,35 +363,6 @@ def validarCodigoArtista():
 def validarCodigoEscenario():
     pass
 
-def crearDiccionariosAuxiliares(config):
-    artistas = {a["codigo"]: a["nombre"] for a in config["artistas"]}
-    escenarios = {e["codigo"]: e["nombre"] for e in config["escenarios"]}
-    franjas = {f["codigo"]: f["nombre"] for f in config["franjas"]}
-
-    # el orden del json define fila (escenario) y columna (franja)
-    codigos_escenarios = [e["codigo"] for e in config["escenarios"]]
-    codigos_franjas = [f["codigo"] for f in config["franjas"]]
-
-    capacidades = {e["codigo"]: int(e["capacidad_maxima"]) for e in config["escenarios"]}
-
-    dias = config["dias"]
-    lineup = {}
-    asistencia = {}
-    for dia in dias:
-        lineup[dia] = [["" for _ in codigos_franjas] for _ in codigos_escenarios]
-        asistencia[dia] = [[-2 for _ in codigos_franjas] for _ in codigos_escenarios]
-
-    return {
-        "artistas": artistas,
-        "escenarios": escenarios,
-        "franjas": franjas,
-        "codigos_escenarios": codigos_escenarios,
-        "codigos_franjas": codigos_franjas,
-        "capacidades": capacidades,
-        "dias": dias,
-        "lineup": lineup,
-        "asistencia": asistencia,
-    }
 
 def consultarAsistenciaTotalPorDia():
     pass
@@ -446,4 +372,3 @@ def consultarShowsSinAsistencia():
 
 def generarReporte(): #Crear o sobrescribir reporte.txt con resultados, alertas e incidencias.
     pass
-
