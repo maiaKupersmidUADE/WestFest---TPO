@@ -1,7 +1,4 @@
 import json
-import os
-import sys
-
 
 def obtenerIndex(lista, buscar, posicion): # se queda
     indice = -1
