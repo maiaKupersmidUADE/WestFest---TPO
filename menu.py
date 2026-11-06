@@ -40,19 +40,7 @@ def main():
         return
 
     dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
-    lineup_sabado = [
-        ["A01", "A02", "A03"],
-        ["A05", "A06", "A07"],
-        ["A09", "A10", ""]
-    ]
-
-    lineup_domingo = [
-        ["A10", "A09", "A08"],
-        ["A06", "A05", "A04"],
-        ["A02", "A01", ""]
-    ]
-
-    archivos.guardarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, dicFranjas)
+    lineup_sabado, lineup_domingo = archivos.cargarLineUp(dicEscenarios, dicFranjas)
 
     # HECHAS POR COMPRENSION
     asistencia_sabado = [[-1 if lineup_sabado[i][j] != "" else -2 for j in range(len(franjas))] for i in range(len(escenarios))]
