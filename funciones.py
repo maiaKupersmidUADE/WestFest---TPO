@@ -325,57 +325,65 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):#combinar dia y franj
 
 def validarLista(config, clave, campos):
     lista = config[clave]
-    if not isinstance(lista, list) or len(lista) == 0:
-        raise ValueError(f"'{clave}' debe ser una lista con al menos un elemento.")
-
     codigos_vistos = []
-    for item in lista:
-        if not isinstance(item, dict):
-            raise ValueError(f"Hay un elemento mal armado en '{clave}'.")
-        for campo in campos:
-            if campo not in item or not isinstance(item[campo], str) or item[campo].strip() == "":
-                raise ValueError(f"En '{clave}' falta el campo '{campo}' o está vacío.")
-        if item["codigo"] in codigos_vistos:
-            raise ValueError(f"En '{clave}' el código {item['codigo']} está repetido.")
-        codigos_vistos.append(item["codigo"])
+    try:
+        if len(lista) == 0:
+            raise ValueError(f"'{clave}' debe tener al menos un elemento.")
+        for item in lista:
+            for campo in campos:
+                if item[campo].strip() == "":
+                    raise ValueError(f"En '{clave}' el campo '{campo}' está vacío.")
+            if item["codigo"] in codigos_vistos:
+                raise ValueError(f"En '{clave}' el código {item['codigo']} está repetido.")
+            codigos_vistos.append(item["codigo"])
+    except (TypeError, KeyError, AttributeError):
+        raise ValueError(f"'{clave}' está mal armado: revisá que cada elemento tenga {campos} con texto.")
 
 def validarConfiguracion(config):
-    if not isinstance(config, dict):
-        raise ValueError("El archivo de configuración debe contener un objeto JSON.")
-
     for clave in ("artistas", "escenarios", "franjas", "dias"):
-        if clave not in config:
-            raise ValueError(f"Falta la clave '{clave}' en la configuración.")
+        try:
+            if clave not in config:
+                raise ValueError(f"Falta la clave '{clave}' en la configuración.")
+        except TypeError:
+            raise ValueError("El archivo de configuración no tiene el formato esperado.")
 
     validarLista(config, "artistas", ("codigo", "nombre"))
     validarLista(config, "escenarios", ("codigo", "nombre"))
     validarLista(config, "franjas", ("codigo", "nombre"))
 
     for escenario in config["escenarios"]:
-        capacidad = escenario.get("capacidad_maxima")
-        if isinstance(capacidad, bool) or not isinstance(capacidad, (int, float)) or capacidad <= 0:
-            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser un número mayor a cero.")
+        try:
+            capacidad = int(escenario["capacidad_maxima"])
+        except (KeyError, TypeError, ValueError):
+            raise ValueError(f"La capacidad del escenario {escenario['codigo']} no es un número válido.")
+        if capacidad <= 0:
+            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser mayor a cero.")
 
-    dias = config["dias"]
-    if not isinstance(dias, list) or len(dias) == 0 or not all(isinstance(d, str) and d.strip() != "" for d in dias):
-        raise ValueError("'dias' debe ser una lista de textos con al menos un día.")
-
-def cargarConfiguracion(): #leer arch json 
     try:
-        with open(RUTA_CONFIG, "r", encoding="utf-8") as archivo:
+        if len(config["dias"]) == 0:
+            raise ValueError("'dias' debe tener al menos un día.")
+        for dia in config["dias"]:
+            if dia.strip() == "":
+                raise ValueError("'dias' tiene un día vacío.")
+    except (TypeError, AttributeError):
+        raise ValueError("'dias' debe ser una lista de textos.")
+
+def cargarConfiguracion():
+    try:
+        with open("configuracion.json", "r", encoding="utf-8") as archivo:
             config = json.load(archivo)
         validarConfiguracion(config)
         return config
     except FileNotFoundError:
-        print(f"Error de configuración: no se encontró el archivo {RUTA_CONFIG}")
+        print("Error de configuración: no se encontró el archivo configuracion.json")
     except json.JSONDecodeError:
         print("Error de configuración: el archivo no es un JSON válido.")
     except OSError:
         print("Error de configuración: no se pudo abrir el archivo.")
     except ValueError as error:
         print(f"Error de configuración: {error}")
-    print("El programa se cerrará.")
-    sys.exit(1)
+    return None
+
 
 def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
     pass
