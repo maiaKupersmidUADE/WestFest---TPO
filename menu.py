@@ -40,38 +40,38 @@ def main():
         return
 
     dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
-    lineup_sabado, lineup_domingo = archivos.cargarLineUp(dicEscenarios, dicFranjas)
+    lineup_sabado, lineup_domingo = archivos.cargarLineUp(dicArtistas, dicEscenarios, dicFranjas)
 
     # HECHAS POR COMPRENSION
-    asistencia_sabado = [[-1 if lineup_sabado[i][j] != "" else -2 for j in range(len(franjas))] for i in range(len(escenarios))]
-    asistencia_domingo = [[-1 if lineup_domingo[i][j] != "" else -2 for j in range(len(franjas))] for i in range(len(escenarios))]
+    asistencia_sabado = [[-1 if lineup_sabado[i][j] != "" else -2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
+    asistencia_domingo = [[-1 if lineup_domingo[i][j] != "" else -2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
 
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
-            funciones.asignarLineUp(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
+            funciones.asignarLineUp(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
         elif opcion == 2:
-            funciones.consultarLineUp(lineup_sabado, lineup_domingo, escenarios, artistas, franjas)
+            funciones.consultarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, artistas, dicFranjas)
         elif opcion == 3:
             codArtista = input("Codigo de Artista a buscar: ").upper()
-            funciones.buscarArtista(artistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
+            funciones.buscarArtista(dicArtistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
         elif opcion == 4:    
-            funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
+            funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
         elif opcion == 5:
-            funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
+            funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
         elif opcion == 6:
-            funciones.consultarArtistaMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
+            funciones.consultarArtistaMayorConvocatoria(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 7:
             totalS = funciones.obtenerTotal(asistencia_sabado)
             totalD = funciones.obtenerTotal(asistencia_domingo)
             print(f"Asistencia total del sabado: {totalS}")
             print(f"Asistencia total del domingo: {totalD}")
         elif opcion == 8:
-            funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
+            funciones.consultarTop3ArtistasMayorConvocatoria(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
-            funciones.consultarShowsSobrepasaronCapacidad(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
+            funciones.consultarShowsSobrepasaronCapacidad(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
         elif opcion == 10:
-            funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, franjas)
+            funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, dicFranjas)
         opcion = menu()
     print("Gracias por usar nuestro sistema, hasta la proxima!")
     print()
