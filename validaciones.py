@@ -34,16 +34,23 @@ def validarConfiguracion(config):
     for escenario in config["escenarios"]:
         if "capacidad_maxima" not in escenario:
             raise ValueError("Falta la capacidad máxima de un escenario.")
-
         capacidad = escenario["capacidad_maxima"]
-
         if type(capacidad) != int or capacidad <= 0:
             raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser un entero mayor a cero.")
 
     dias = config["dias"]
-
     if type(dias) != list or len(dias) != 2:
         raise ValueError("'dias' debe contener sábado y domingo.")
-
     if dias != ["sabado", "domingo"]:
         raise ValueError("'dias' debe contener sabado y domingo.")
+
+def pedir_entero_positivo(mensaje): # validar con pytest
+    while True:
+        try:
+            num = int(input(mensaje))
+            if num < 0:
+                print("\nError: La cantidad de espectadores no puede ser negativa.")
+            else:
+                return num
+        except ValueError:
+            print("\nError: Debe ingresar un numero entero valido.")

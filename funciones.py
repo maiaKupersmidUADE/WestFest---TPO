@@ -1,31 +1,9 @@
-import json
-
-def obtenerIndex(lista, buscar, posicion): # se queda
-    indice = -1
-    i = 0
-    while i < len(lista) and indice == -1:
-        if lista[i][posicion] == buscar:
-            indice = i 
-        i += 1  
-    return indice
-
 def artistaAsignado(lineup, codArtista, indiceHorario): #adaptar a nuevas estructuras
     asignado = False
     for i in range(len(lineup)):
         if lineup[i][indiceHorario] == codArtista:
             asignado = True
     return asignado
-
-def pedir_entero_positivo(mensaje): # validar con pytest
-    while True:
-        try:
-            num = int(input(mensaje))
-            if num < 0:
-                print("\nError: La cantidad de espectadores no puede ser negativa.")
-            else:
-                return num
-        except ValueError:
-            print("\nError: Debe ingresar un numero entero valido.")
 
 def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y aplicar nuevas validaciones
     codArtista = input("Codigo de Artista a buscar: ").upper()
@@ -170,7 +148,7 @@ def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima): #actualizar a
         actual = asistencia_matriz[indiceEscenario][indiceHorario]
         print(f"El show ya tiene asistencia registrada ({actual} espectadores). Utilice la opción 'Modificar asistencia'.")
     else:
-        espectadores = pedir_entero_positivo("Ingrese la cantidad de espectadores: ")
+        espectadores = validaciones.pedir_entero_positivo("Ingrese la cantidad de espectadores: ")
         asistencia_matriz[indiceEscenario][indiceHorario] = espectadores
         print(f"Asistencia de {espectadores} espectadores registrada.")
         if espectadores > capacidad_maxima:
@@ -203,7 +181,7 @@ def modificarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
     else:
         actual = asistencia_matriz[indiceEscenario][indiceHorario]
         print(f"Asistencia registrada actualmente: {actual} espectadores.")
-        nueva_asistencia = pedir_entero_positivo("Ingrese la nueva cantidad de espectadores: ")
+        nueva_asistencia = validaciones.pedir_entero_positivo("Ingrese la nueva cantidad de espectadores: ")
         asistencia_matriz[indiceEscenario][indiceHorario] = nueva_asistencia
         print(f"Asistencia actualizada correctamente a {nueva_asistencia} espectadores")
         if nueva_asistencia > capacidad_maxima:
@@ -336,6 +314,15 @@ def crearDiccionariosAuxiliares(config):
         dicFranjas[franja["codigo"]] = franja["nombre"]
 
     return dicArtistas, dicEscenarios, dicFranjas
+
+def obtenerIndiceCodigo(diccionario, codigo):
+    codigos = list(diccionario.keys())
+    indice = -1
+
+    if codigo in diccionario:
+        indice = codigos.index(codigo)
+
+    return indice
 
 def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
     pass
