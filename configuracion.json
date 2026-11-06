@@ -1,32 +1,34 @@
 
 {
     "artistas": [
-        {"codigo": "A01", "nombre": "Nombre del artista 1"},
-        {"codigo": "A02", "nombre": "Nombre del artista 2"},
-        {"codigo": "A03", "nombre": "Nombre del artista 3"},
-        {"codigo": "A04", "nombre": "Nombre del artista 4"},
-        {"codigo": "A05", "nombre": "Nombre del artista 5"},
-        {"codigo": "A06", "nombre": "Nombre del artista 6"},
-        {"codigo": "A07", "nombre": "Nombre del artista 7"},
-        {"codigo": "A08", "nombre": "Nombre del artista 8"},
-        {"codigo": "A09", "nombre": "Nombre del artista 9"},
-        {"codigo": "A10", "nombre": "Nombre del artista 10"}
+        {"codigo": "A01", "nombre": "Lady Gagá"},
+        {"codigo": "A02", "nombre": "50 pesos"},
+        {"codigo": "A03", "nombre": "Me robaron entre 5"},
+        {"codigo": "A04", "nombre": "Miley Ciruja"},
+        {"codigo": "A05", "nombre": "21 pilotos de Ezeiza"},
+        {"codigo": "A06", "nombre": "Los kioskeros"},
+        {"codigo": "A07", "nombre": "El finde"},
+        {"codigo": "A08", "nombre": "Cano del Oeste"},
+        {"codigo": "A09", "nombre": "Red Hot Chori Peppers"},
+        {"codigo": "A10", "nombre": "Paco Odioso"}
+        {"codigo": "A11", "nombre": "Ariana Chiquita"}
+        {"codigo": "A12", "nombre": "Conejo Malo"}
     ],
     "escenarios": [
         {
             "codigo": "E01",
             "nombre": "Main Stage",
-            "capacidad_maxima": 1000
+            "capacidad_maxima": 5000
         },
         {
             "codigo": "E02",
             "nombre": "Electronic Arena",
-            "capacidad_maxima": 1000
+            "capacidad_maxima": 3000
         },
         {
             "codigo": "E03",
             "nombre": "Mata Club",
-            "capacidad_maxima": 1000
+            "capacidad_maxima": 2000
         }
     ],
     "franjas": [
