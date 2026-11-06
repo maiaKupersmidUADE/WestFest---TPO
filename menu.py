@@ -32,6 +32,14 @@ def menu():
     return opcion
 
 def main():
+
+    config = funciones.cargarConfiguracion()
+    if config is None:
+        print("El programa se cerrará.")
+        return
+
+    datos = funciones.crearDiccionariosAuxiliares(config)
+    
     franjas = [("F01", "Mediodia"), ("F02", "Tarde"), ("F03", "Noche")]
     escenarios = [("E01", "Main Stage"), ("E02", "Electronic Arena"), ("E03", "Mata Club")]
     artistas = [("A01", "Lady Gagá"), ("A02", "50 pesos"), ("A03", "Me robaron entre 5"), ("A04", "Miley Ciruja"), ("A05", "21 pilotos de Ezeiza"), 

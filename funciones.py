@@ -411,8 +411,35 @@ def validarCodigoArtista():
 def validarCodigoEscenario():
     pass
 
-def crearDiccionariosAuxiliares():
-    pass
+def crearDiccionariosAuxiliares(config):
+    artistas = {a["codigo"]: a["nombre"] for a in config["artistas"]}
+    escenarios = {e["codigo"]: e["nombre"] for e in config["escenarios"]}
+    franjas = {f["codigo"]: f["nombre"] for f in config["franjas"]}
+
+    # el orden del json define fila (escenario) y columna (franja)
+    codigos_escenarios = [e["codigo"] for e in config["escenarios"]]
+    codigos_franjas = [f["codigo"] for f in config["franjas"]]
+
+    capacidades = {e["codigo"]: int(e["capacidad_maxima"]) for e in config["escenarios"]}
+
+    dias = config["dias"]
+    lineup = {}
+    asistencia = {}
+    for dia in dias:
+        lineup[dia] = [["" for _ in codigos_franjas] for _ in codigos_escenarios]
+        asistencia[dia] = [[-2 for _ in codigos_franjas] for _ in codigos_escenarios]
+
+    return {
+        "artistas": artistas,
+        "escenarios": escenarios,
+        "franjas": franjas,
+        "codigos_escenarios": codigos_escenarios,
+        "codigos_franjas": codigos_franjas,
+        "capacidades": capacidades,
+        "dias": dias,
+        "lineup": lineup,
+        "asistencia": asistencia,
+    }
 
 def consultarAsistenciaTotalPorDia():
     pass
