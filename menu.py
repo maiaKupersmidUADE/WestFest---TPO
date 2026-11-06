@@ -1,4 +1,5 @@
 import funciones
+import archivos
 
 def opciones_menu():
     print("-" * 50)
@@ -33,20 +34,12 @@ def menu():
 
 def main():
 
-    config = funciones.cargarConfiguracion()
+    config = archivos.cargarConfiguracion()
     if config is None:
         print("El programa se cerrará.")
         return
 
-    datos = funciones.crearDiccionariosAuxiliares(config)
-    
-    franjas = [("F01", "Mediodia"), ("F02", "Tarde"), ("F03", "Noche")]
-    escenarios = [("E01", "Main Stage"), ("E02", "Electronic Arena"), ("E03", "Mata Club")]
-    artistas = [("A01", "Lady Gagá"), ("A02", "50 pesos"), ("A03", "Me robaron entre 5"), ("A04", "Miley Ciruja"), ("A05", "21 pilotos de Ezeiza"), 
-        ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso"), ("A11", "Ariana Chiquita"),
-        ("A12", "Conejo Malo"),]
-
-    capacidadEscenario = 1000
+    dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
     lineup_sabado = [
         ["A01", "A02", "A03"],
         ["A05", "A06", "A07"],
@@ -58,6 +51,8 @@ def main():
         ["A06", "A05", "A04"],
         ["A02", "A01", ""]
     ]
+
+    archivos.guardarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, dicFranjas)
 
     # HECHAS POR COMPRENSION
     asistencia_sabado = [[-1 if lineup_sabado[i][j] != "" else -2 for j in range(len(franjas))] for i in range(len(escenarios))]

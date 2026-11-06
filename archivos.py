@@ -19,21 +19,23 @@ def cargarConfiguracion():
         print(f"Error de configuración: {error}")
     return None
 
-def guardarLineUp(LUS, LUD, E, H):
+def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
     with open("lineup.csv", "w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
 
         escritor.writerow(["dia", "codigo_escenario", "codigo_franja", "codigo_artista"])
 
+        codigosEscenarios = list(dicEscenarios.keys())
+        codigosFranjas = list(dicFranjas.keys())
+
         # Guardar lineup del SABADO
         for i in range(len(LUS)):
             for j in range(len(LUS[i])):
                 if LUS[i][j] != "":
-                    escritor.writerow(["SABADO", E[i][0], H[j][0], LUS[i][j]])
+                    escritor.writerow(["SABADO", codigosEscenarios[i], codigosFranjas[j], LUS[i][j]])
 
         # Guardar lineup del DOMINGO
         for i in range(len(LUD)):
             for j in range(len(LUD[i])):
                 if LUD[i][j] != "":
-                    escritor.writerow(["DOMINGO", E[i][0], H[j][0], LUD[i][j]])
-
+                    escritor.writerow(["DOMINGO", codigosEscenarios[i], codigosFranjas[j], LUD[i][j]])
