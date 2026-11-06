@@ -41,10 +41,7 @@ def main():
 
     dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
     lineup_sabado, lineup_domingo = archivos.cargarLineUp(dicArtistas, dicEscenarios, dicFranjas)
-
-    # HECHAS POR COMPRENSION
-    asistencia_sabado = [[-1 if lineup_sabado[i][j] != "" else -2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
-    asistencia_domingo = [[-1 if lineup_domingo[i][j] != "" else -2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
+    asistencia_sabado, asistencia_domingo = archivos.cargarAsistencia(dicEscenarios, dicFranjas)
 
     opcion = menu()
     while opcion != 0:

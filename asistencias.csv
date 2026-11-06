@@ -1,1 +1,17 @@
-"""almacenará los registros de asistencia de cada show, incluyendo el día, el código del escenario, el código de la franja horaria y la cantidad de espectadores."""
+dia,codigo_escenario,codigo_franja,asistencia
+SABADO,E01,F01,-1
+SABADO,E01,F02,-1
+SABADO,E01,F03,-1
+SABADO,E02,F01,-1
+SABADO,E02,F02,-1
+SABADO,E02,F03,-1
+SABADO,E03,F01,-1
+SABADO,E03,F02,-1
+DOMINGO,E01,F01,-1
+DOMINGO,E01,F02,-1
+DOMINGO,E01,F03,-1
+DOMINGO,E02,F01,-1
+DOMINGO,E02,F02,-1
+DOMINGO,E02,F03,-1
+DOMINGO,E03,F01,-1
+DOMINGO,E03,F02,-1
