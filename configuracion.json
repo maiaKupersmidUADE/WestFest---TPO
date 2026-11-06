@@ -10,8 +10,8 @@
         {"codigo": "A07", "nombre": "El finde"},
         {"codigo": "A08", "nombre": "Cano del Oeste"},
         {"codigo": "A09", "nombre": "Red Hot Chori Peppers"},
-        {"codigo": "A10", "nombre": "Paco Odioso"}
-        {"codigo": "A11", "nombre": "Ariana Chiquita"}
+        {"codigo": "A10", "nombre": "Paco Odioso"},
+        {"codigo": "A11", "nombre": "Ariana Chiquita"},
         {"codigo": "A12", "nombre": "Conejo Malo"}
     ],
     "escenarios": [
