@@ -40,35 +40,53 @@ def main():
         return
 
     dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
-    lineup_sabado, lineup_domingo = archivos.cargarLineUp(dicArtistas, dicEscenarios, dicFranjas)
-    asistencia_sabado, asistencia_domingo = archivos.cargarAsistencia(dicEscenarios, dicFranjas)
+    lineup_sabado, lineup_domingo, incidenciasLineUp = archivos.cargarLineUp(dicArtistas, dicEscenarios, dicFranjas)
+    asistencia_sabado, asistencia_domingo, incidenciasAsistencia = archivos.cargarAsistencia(dicEscenarios, dicFranjas)
+
+    incidencias = incidenciasLineUp + incidenciasAsistencia
+    if len(incidencias) > 0:
+        print()
+        print("INCIDENCIAS DETECTADAS AL CARGAR LOS ARCHIVOS")
+        print("-" * 50)
+        for mensaje in incidencias:
+            print("-", mensaje)
+        print()
+
+    # PROVISORIO: listas viejas para las funciones que todavía no se adaptaron a diccionarios.
+    # Se van reemplazando por dicArtistas, dicEscenarios y dicFranjas a medida que se adapta cada función.
+    franjas = [("F01", "Mediodia"), ("F02", "Tarde"), ("F03", "Noche")]
+    escenarios = [("E01", "Main Stage"), ("E02", "Electronic Arena"), ("E03", "Mata Club")]
+    artistas = [("A01", "Lady Gagá"), ("A02", "50 pesos"), ("A03", "Me robaron entre 5"), ("A04", "Miley Ciruja"), ("A05", "21 pilotos de Ezeiza"), 
+        ("A06", "Los kioskeros"), ("A07", "El finde"), ("A08", "Caño del Oeste"), ("A09", "Red Hot Chori Peppers"), ("A10", "Paco Odioso"), ("A11", "Ariana Chiquita"),
+        ("A12", "Conejo Malo"),]
+    capacidadEscenario = 1000
 
     opcion = menu()
     while opcion != 0:
         if opcion == 1:
-            funciones.asignarLineUp(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
+            funciones.asignarLineUp(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
         elif opcion == 2:
-            funciones.consultarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, artistas, dicFranjas)
+            funciones.consultarLineUp(lineup_sabado, lineup_domingo, escenarios, artistas, franjas)
         elif opcion == 3:
             codArtista = input("Codigo de Artista a buscar: ").upper()
-            funciones.buscarArtista(dicArtistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
+            funciones.buscarArtista(artistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas)
         elif opcion == 4:    
-            funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
+            funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 5:
-            funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
+            funciones.modificarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 6:
-            funciones.consultarArtistaMayorConvocatoria(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
+            funciones.consultarArtistaMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 7:
             totalS = funciones.obtenerTotal(asistencia_sabado)
             totalD = funciones.obtenerTotal(asistencia_domingo)
             print(f"Asistencia total del sabado: {totalS}")
             print(f"Asistencia total del domingo: {totalD}")
         elif opcion == 8:
-            funciones.consultarTop3ArtistasMayorConvocatoria(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
+            funciones.consultarTop3ArtistasMayorConvocatoria(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
         elif opcion == 9:
-            funciones.consultarShowsSobrepasaronCapacidad(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, capacidadEscenario)
+            funciones.consultarShowsSobrepasaronCapacidad(artistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, escenarios, franjas, capacidadEscenario)
         elif opcion == 10:
-            funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, dicFranjas)
+            funciones.consultarTop3FranjasHorariasMayorAsistencia(asistencia_sabado, asistencia_domingo, franjas)
         opcion = menu()
     print("Gracias por usar nuestro sistema, hasta la proxima!")
     print()

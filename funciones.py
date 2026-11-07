@@ -1,3 +1,5 @@
+import validaciones
+
 def artistaAsignado(lineup, codArtista, indiceHorario): #adaptar a nuevas estructuras
     asignado = False
     for i in range(len(lineup)):
@@ -330,6 +332,8 @@ def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
 def iniciarSesion(): #solicitar usuario y contraseña y validar credenciales antes de mostrar menu
     pass
 
+"""
+CONFIRMAR PARA BORRAR PORQUE ESTÁN DECLARADOS EN ARCHIVOS.PY
 def cargarLineUp():
     pass
     #lee lineup.csv al iniciar y reconstruye las estructuras
@@ -343,7 +347,7 @@ def guardarLineUp():
 
 def guardarAsistencia():
     pass
-
+"""
 def validarCodigoArtista():
     pass
 

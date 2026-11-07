@@ -25,34 +25,57 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
     codigosEscenarios = list(dicEscenarios.keys())
     codigosFranjas = list(dicFranjas.keys())
 
-    with open("lineup.csv", "r", newline="", encoding="utf-8") as archivo:
-        lector = csv.DictReader(archivo)
+    incidencias = []
+    try:
+        with open("lineup.csv", "r", newline="", encoding="utf-8") as archivo:
+            lector = csv.DictReader(archivo)
 
-        for fila in lector:
-            dia = fila["dia"].upper()
-            codEscenario = fila["codigo_escenario"]
-            codFranja = fila["codigo_franja"]
-            codArtista = fila["codigo_artista"]
+            numeroFila = 1 #Definido asi por el encabezado del csv y que empiece por la segunda linea que son los datos
+            for fila in lector:
 
-            if codEscenario not in dicEscenarios:
-                raise ValueError(f"El escenario {codEscenario} no existe.")
+                numeroFila +=1
+                try:
 
-            if codFranja not in dicFranjas:
-                raise ValueError(f"La franja {codFranja} no existe.")
+                    dia = fila["dia"]
+                    codEscenario = fila["codigo_escenario"]
+                    codFranja = fila["codigo_franja"]
+                    codArtista = fila["codigo_artista"]
 
-            if codArtista not in dicArtistas:
-                raise ValueError(f"El artista {codArtista} no existe.")
+                    if None in (dia, codEscenario, codFranja, codArtista):
+                        raise ValueError("La fila está incompleta.")
 
-            indiceEscenario = codigosEscenarios.index(codEscenario)
-            indiceFranja = codigosFranjas.index(codFranja)
+                    dia = dia.upper()
 
-            if dia == "SABADO":
-                lineup_sabado[indiceEscenario][indiceFranja] = codArtista
-            elif dia == "DOMINGO":
-                lineup_domingo[indiceEscenario][indiceFranja] = codArtista
-            else:
-                raise ValueError(f"El dia {dia} no es valido.")
-    return lineup_sabado, lineup_domingo
+                    if codEscenario not in dicEscenarios:
+                        raise ValueError(f"El escenario {codEscenario} no existe.")
+
+                    if codFranja not in dicFranjas:
+                        raise ValueError(f"La franja {codFranja} no existe.")
+
+                    if codArtista not in dicArtistas:
+                        raise ValueError(f"El artista {codArtista} no existe.")
+                
+                    indiceEscenario = codigosEscenarios.index(codEscenario)
+                    indiceFranja = codigosFranjas.index(codFranja)
+
+                    if dia != "SABADO" and dia != "DOMINGO":
+                        raise ValueError(f"El dia {dia} no es valido.")
+
+                    if dia == "SABADO":
+                        lineup_sabado[indiceEscenario][indiceFranja] = codArtista
+                    else:
+                        lineup_domingo[indiceEscenario][indiceFranja] = codArtista
+                except ValueError as error:
+                    incidencias.append(f"Fila {numeroFila} de lineup.csv: {error}")
+    except FileNotFoundError:
+        guardarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, dicFranjas)
+        incidencias.append("No se encontró lineup.csv, se creó un archivo nuevo vacío.")
+    except KeyError:
+        incidencias.append("Al encabezado de lineup.csv le faltan columnas.")
+    except OSError:
+        incidencias.append("No se pudo leer lineup.csv.")
+
+    return lineup_sabado, lineup_domingo, incidencias
 
 def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
     with open("lineup.csv", "w", newline="", encoding="utf-8") as archivo:
@@ -81,30 +104,68 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 
     codigosEscenarios = list(dicEscenarios.keys())
     codigosFranjas = list(dicFranjas.keys())
+    incidencias = []
 
-    with open("asistencias.csv", "r", newline="", encoding="utf-8") as archivo:
-        lector = csv.DictReader(archivo)
+    try:
+        with open("asistencias.csv", "r", newline="", encoding="utf-8") as archivo:
+            lector = csv.DictReader(archivo)
 
-        for fila in lector:
-            dia = fila["dia"].upper()
-            codEscenario = fila["codigo_escenario"]
-            codFranja = fila["codigo_franja"]
-            asistencia = int(fila["asistencia"])
+            numeroFila = 1  # el encabezado es la línea 1, los datos empiezan en la 2
+            for fila in lector:
+                numeroFila += 1
+                try:
+                    dia = fila["dia"]
+                    codEscenario = fila["codigo_escenario"]
+                    codFranja = fila["codigo_franja"]
+                    textoAsistencia = fila["asistencia"]
 
-            if codEscenario not in dicEscenarios or codFranja not in dicFranjas:
-                raise ValueError("El escenario o la franja del archivo no existen.")
+                    if None in (dia, codEscenario, codFranja, textoAsistencia):
+                        raise ValueError("La fila está incompleta.")
 
-            indiceEscenario = codigosEscenarios.index(codEscenario)
-            indiceFranja = codigosFranjas.index(codFranja)
+                    dia = dia.upper()
 
-            if dia == "SABADO":
-                asistencia_sabado[indiceEscenario][indiceFranja] = asistencia
-            elif dia == "DOMINGO":
-                asistencia_domingo[indiceEscenario][indiceFranja] = asistencia
-            else:
-                raise ValueError(f"El dia {dia} no es valido.")
+                    if codEscenario not in dicEscenarios:
+                        raise ValueError(f"El escenario {codEscenario} no existe.")
 
-    return asistencia_sabado, asistencia_domingo
+                    if codFranja not in dicFranjas:
+                        raise ValueError(f"La franja {codFranja} no existe.")
+
+                    if dia != "SABADO" and dia != "DOMINGO":
+                        raise ValueError(f"El dia {dia} no es valido.")
+
+                    try:
+                        asistencia = int(textoAsistencia)
+                    except ValueError:
+                        raise ValueError(f"La asistencia '{textoAsistencia}' no es un número entero.")
+
+                    if asistencia < -1:
+                        raise ValueError(f"La asistencia {asistencia} no es válida (debe ser -1 o mayor o igual a 0).")
+
+                    indiceEscenario = codigosEscenarios.index(codEscenario)
+                    indiceFranja = codigosFranjas.index(codFranja)
+
+                    if dia == "SABADO":
+                        grilla = asistencia_sabado
+                    else:
+                        grilla = asistencia_domingo
+
+                    if grilla[indiceEscenario][indiceFranja] != -2:
+                        raise ValueError("Esa posición está repetida en el archivo.")
+
+                    grilla[indiceEscenario][indiceFranja] = asistencia
+
+                except ValueError as error:
+                    incidencias.append(f"Fila {numeroFila} de asistencias.csv: {error}")
+
+    except FileNotFoundError:
+        guardarAsistencia(asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
+        incidencias.append("No se encontró asistencias.csv, se creó un archivo nuevo vacío.")
+    except KeyError:
+        incidencias.append("Al encabezado de asistencias.csv le faltan columnas.")
+    except OSError:
+        incidencias.append("No se pudo leer asistencias.csv.")
+
+    return asistencia_sabado, asistencia_domingo, incidencias
 
 def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
     with open("asistencias.csv", "w", newline="", encoding="utf-8") as archivo:
