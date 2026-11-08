@@ -32,7 +32,7 @@
         }
     ],
     "franjas": [
-        {"codigo": "F01", "nombre": "Mediodía"},
+        {"codigo": "F01", "nombre": "Mediodia"},
         {"codigo": "F02", "nombre": "Tarde"},
         {"codigo": "F03", "nombre": "Noche"}
     ],
