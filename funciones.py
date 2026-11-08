@@ -31,47 +31,65 @@ def obtenerCodigo(diccionario, criterio, tipoBusqueda):
 
 def asignarLineUp(A, LUS, LUD, AS, AD, E, H):
     codArtista = input("Codigo de Artista a buscar: ").upper()
-    if codArtista not in A:
-        print("El codigo no existe o esta mal ingresado.")
-    else:
-        dia = input("A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
-        while dia != "SABADO" and dia != "DOMINGO":
-            dia = input("Dia ingresado invalido. ¿A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
 
-        horario = input("¿En que horario? (Mediodía/Tarde/Noche): ").capitalize()
+    try:
+        validaciones.validarCodigoArtista(codArtista, A)
+    except ValueError as error:
+        print(error)
+        return
+
+    dia = input("A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
+    while dia != "SABADO" and dia != "DOMINGO":
+        dia = input("Dia ingresado invalido. ¿A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
+
+    horario = input("¿En que horario? (Mediodía/Tarde/Noche): ").capitalize()
+    codigoHorario = obtenerCodigo(H, horario, "nombre")
+
+    while codigoHorario == "":
+        horario = input("Horario invalido. Ingrese Mediodía, Tarde o Noche: ").capitalize()
         codigoHorario = obtenerCodigo(H, horario, "nombre")
+    
+    indiceHorario = obtenerCodigo(H, codigoHorario, "indice")
 
-        while codigoHorario == "":
-            horario = input("Horario invalido. Ingrese Mediodía, Tarde o Noche: ").capitalize()
-            codigoHorario = obtenerCodigo(H, horario, "nombre")
-        indiceHorario = obtenerCodigo(H, codigoHorario, "indice")
-
-        escenario = input("¿En que escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
+    escenario = input("¿En que escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
+    codigoEscenario = obtenerCodigo(E, escenario, "escenario")
+    
+    while codigoEscenario == "":
+        escenario = input("Escenario invalido. Ingrese un escenario existente: ").title()
         codigoEscenario = obtenerCodigo(E, escenario, "escenario")
-        while codigoEscenario == "":
-            escenario = input("Escenario invalido. Ingrese un escenario existente: ").title()
-            codigoEscenario = obtenerCodigo(E, escenario, "escenario")
-        indiceEscenario = obtenerCodigo(E, codigoEscenario, "indice")
+    
+    try:
+        validaciones.validarCodigoEscenario(codigoEscenario, E)
+    except ValueError as error:
+        print(error)
+        return
 
-        lineup = LUS if dia == "SABADO" else LUD
-        asistencia = AS if dia == "SABADO" else AD
-        if artistaAsignado(lineup, codArtista, indiceHorario):
+    indiceEscenario = obtenerCodigo(E, codigoEscenario, "indice")
+
+
+    lineup = LUS if dia == "SABADO" else LUD
+    asistencia = AS if dia == "SABADO" else AD
+    
+    if artistaAsignado(lineup, codArtista, indiceHorario):
             print(f"{A[codArtista]} ya esta asignado a otro escenario en ese horario.")
-        else:
-            if lineup[indiceEscenario][indiceHorario] != "":
-                cod_act = lineup[indiceEscenario][indiceHorario]
-                nom_act = A[cod_act] if cod_act in A else cod_act
-                resp = input(f"El {dia.lower()} en {escenario} ({horario}) ya tiene asignado a {nom_act}, ¿quiere reemplazarlo? (S/N): ").upper()
-                if resp == "S":
-                    lineup[indiceEscenario][indiceHorario] = codArtista
-                    asistencia[indiceEscenario][indiceHorario] = -1
-                    print(f"Artista {A[codArtista]} asignado correctamente.")
-                else:
-                    print("Operacion cancelada.")
-            else:
+    else:
+        if lineup[indiceEscenario][indiceHorario] != "":
+            cod_act = lineup[indiceEscenario][indiceHorario]
+            nom_act = A[cod_act] if cod_act in A else cod_act
+            
+            resp = input(f"El {dia.lower()} en {escenario} ({horario}) ya tiene asignado a {nom_act}, ¿quiere reemplazarlo? (S/N): ").upper()
+            
+            if resp == "S":
                 lineup[indiceEscenario][indiceHorario] = codArtista
                 asistencia[indiceEscenario][indiceHorario] = -1
                 print(f"Artista {A[codArtista]} asignado correctamente.")
+            else:
+                print("Operacion cancelada.")
+        
+        else:
+            lineup[indiceEscenario][indiceHorario] = codArtista
+            asistencia[indiceEscenario][indiceHorario] = -1
+            print(f"Artista {A[codArtista]} asignado correctamente.")
 
 def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H):
     if codArtista not in A:
@@ -367,12 +385,6 @@ def cargarUsuarios():
     pass
 
 def iniciarSesion():
-    pass
-
-def validarCodigoArtista():
-    pass
-
-def validarCodigoEscenario():
     pass
 
 def consultarAsistenciaTotalPorDia():

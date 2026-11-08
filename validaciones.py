@@ -1,3 +1,5 @@
+import re
+
 def validarLista(config, clave, campos):
     lista = config[clave]
     codigosVistos = []
@@ -54,3 +56,21 @@ def pedir_entero_positivo(mensaje): # validar con pytest
                 return num
         except ValueError:
             print("\nError: Debe ingresar un numero entero valido.")
+
+def validarCodigoArtista(codigo, A):
+    if not re.fullmatch(r"^A[0-9]{2}$", codigo):
+        raise ValueError("Formato de código incorrecto.")
+
+    if codigo not in A:
+        raise ValueError("El artista no existe.")
+
+    return True
+
+def validarCodigoEscenario(codigo, E):
+    if not re.fullmatch(r"^E[0-9]{2}$", codigo):
+        raise ValueError("Formato de codigo incorrecto.")
+
+    if codigo not in E:
+        raise ValueError("El escenario no existe.")
+
+    return True
