@@ -175,3 +175,31 @@ def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
             for j in range(len(AD[i])):
                 if AD[i][j] != -2:
                     archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AD[i][j]) + "\n")
+
+def cargarUsuarios():
+    dicUsuarios = {}
+    try:
+        with open("usuarios.csv", "r", encoding="utf-8") as archivo:
+            lineas = archivo.readlines()
+            numeroFila = 1
+            for fila in lineas[1:]:
+                numeroFila += 1
+                if fila.strip() != "":
+                    datos = fila.strip().split(",")
+                    if len(datos) == 2 and datos[0] != "" and datos[1] != "":
+                        usuario = datos[0]
+                        contraseña = datos[1]
+                        dicUsuarios[usuario] = contraseña
+                    else:
+                        print(f"Error en la fila {numeroFila} de usuarios.csv.")
+
+    except FileNotFoundError:
+        print("Error: no se encontró usuarios.csv.")
+        return None
+    except OSError:
+        print("Error: no se pudo leer usuarios.csv.")
+        return None
+    if len(dicUsuarios) == 0:
+        print("Error: no hay usuarios registrados.")
+        return None
+    return dicUsuarios

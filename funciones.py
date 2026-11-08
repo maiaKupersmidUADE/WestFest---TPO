@@ -362,8 +362,6 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
     for i in range(len(top3)):
         print(f"{i + 1}. {top3[i][0]} - {top3[i][1]} espectadores")
 
-# FUNCIONES PARA LA SEGUNDA ETAPA
-
 def crearDiccionariosAuxiliares(config):
     dicArtistas = {}
     for artista in config["artistas"]:
@@ -381,14 +379,23 @@ def crearDiccionariosAuxiliares(config):
         dicFranjas[franja["codigo"]] = franja["nombre"]
     return dicArtistas, dicEscenarios, dicFranjas
 
-def cargarUsuarios():
-    pass
+def pedirCredenciales():
+    usuario = input("Nombre de usuario: ")
+    contraseña = input("Contraseña: ")
+    return usuario, contraseña
 
-def iniciarSesion():
-    pass
+def iniciarSesion(dicUsuarios):
+    acceso = False
+    while acceso == False:
+        usuario, contraseña = pedirCredenciales()
+        if usuario in dicUsuarios and dicUsuarios[usuario] == contraseña:
+            print("\nInicio de sesión exitoso.")
+            acceso = True
+        else:
+            print("\nUsuario o contraseña incorrectos. Intente nuevamente.\n")
+    return acceso
 
 def consultarAsistenciaTotalPorDia(AS,AD):
-
     total_sabado = 0
     total_domingo = 0
 
