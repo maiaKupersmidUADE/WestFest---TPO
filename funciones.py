@@ -387,8 +387,29 @@ def cargarUsuarios():
 def iniciarSesion():
     pass
 
-def consultarAsistenciaTotalPorDia():
-    pass
+def consultarAsistenciaTotalPorDia(AS,AD):
+
+    total_sabado = 0
+    total_domingo = 0
+
+    #sabado
+    for i in range(len(AS)):
+        for j in range(len(AS[i])):
+            if AS[i][j] >= 0:
+                total_sabado += AS[i][j]
+
+    #domingo
+    for i in range(len(AD)):
+        for j in range(len(AD[i])):
+            if AD[i][j] >= 0:
+                total_domingo += AD[i][j]
+    
+
+    print("\n ASISTENCIA TOTAL POR DÍA")
+    print("-"*30)
+    print("Sábado:", total_sabado, "espectadores")
+    print("Domingo:", total_domingo, "espectadores")   
+    
 
 def consultarShowsSinAsistencia():
     pass
