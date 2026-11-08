@@ -38,7 +38,7 @@ def test_obtener_total_ignorar_asistencias_sin_registrar():
         [-2, 250, 50]
     ]
     
-    resultado = funciones.obtenerTotal(matriz)
+    resultado = funciones.obtenerTotalRecursivo(matriz)
 
     assert resultado == 400
 
@@ -75,4 +75,98 @@ def test_obtener_convocatorias_acumula_por_artista():
     assert resultado == [("A01", 300), ("A02", 50)]
 
 def test_detectar_capacidad_superada():
-    pass
+    A = {
+        "A01": "Lady Gagá",
+        "A02": "50 pesos"
+    }
+
+    E = {
+        "E01": {
+            "nombre": "Main Stage",
+            "capacidad_maxima": 5000
+        }
+    }
+
+    H = {
+        "F01": "Mediodia",
+        "F02": "Tarde",
+        "F03": "Noche"
+    }
+    LUS = [["A01", "A02", ""]]
+    LUD = [["", "", ""]]
+
+    AS = [[5500, 4000, -2]]
+    AD = [[-2, -2, -2]]
+
+    resultado = funciones.consultarShowsSobrepasaronCapacidad(
+        A, LUS, LUD, AS, AD, E, H
+    )
+
+    esperado = [
+        ("SABADO", "Main Stage", "Mediodia", "Lady Gagá", 5500)
+    ]
+
+    assert resultado == esperado
+
+def test_diferenciar_asistencia_pendiente_y_cero():
+    A = {
+        "A01": "Lady Gagá",
+        "A02": "50 pesos"
+    }
+
+    E = {
+        "E01": {
+            "nombre": "Main Stage",
+            "capacidad_maxima": 5000
+        }
+    }
+
+    H = {
+        "F01": "Mediodia",
+        "F02": "Tarde",
+        "F03": "Noche"
+    }
+
+    LUS = [["A01", "A02", ""]]
+    LUD = [["", "", ""]]
+
+    AS = [[-1, 0, -2]]
+    AD = [[-2, -2, -2]]
+
+    resultado = funciones.consultarShowsSinAsistencia(
+        A, LUS, LUD, AS, AD, E, H
+    )
+
+    esperado = [
+        ("SABADO", "Main Stage", "Mediodia", "Lady Gagá")
+    ]
+
+    assert resultado == esperado
+
+def test_asistencia_igual_a_capacidad_maxima():
+    A = {
+        "A01": "Lady Gagá"
+    }
+
+    E = {
+        "E02": {
+            "nombre": "Electronic Arena",
+            "capacidad_maxima": 3000
+        }
+    }
+
+    H = {
+        "F01": "Mediodia"
+    }
+
+    LUS = [["A01"]]
+    LUD = [[""]]
+
+    AS = [[3000]]
+    AD = [[-2]]
+
+    resultado = funciones.consultarShowsSobrepasaronCapacidad(
+        A, LUS, LUD, AS, AD, E, H
+    )
+
+    assert resultado == []
