@@ -28,14 +28,12 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
     incidencias = []
     try:
         with open("lineup.csv", "r", newline="", encoding="utf-8") as archivo:
-            lector = csv.DictReader(archivo)
+            lector = csv.DictReader(archivo) #SACAR
 
             numeroFila = 1 #Definido asi por el encabezado del csv y que empiece por la segunda linea que son los datos
             for fila in lector:
-
                 numeroFila +=1
                 try:
-
                     dia = fila["dia"]
                     codEscenario = fila["codigo_escenario"]
                     codFranja = fila["codigo_franja"]
@@ -45,7 +43,6 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
                         raise ValueError("La fila está incompleta.")
 
                     dia = dia.upper()
-
                     if codEscenario not in dicEscenarios:
                         raise ValueError(f"El escenario {codEscenario} no existe.")
 
@@ -79,9 +76,9 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
 
 def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
     with open("lineup.csv", "w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.writer(archivo)
+        escritor = csv.writer(archivo) #writer?
 
-        escritor.writerow(["dia", "codigo_escenario", "codigo_franja", "codigo_artista"])
+        escritor.writerow(["dia", "codigo_escenario", "codigo_franja", "codigo_artista"]) #writerowwww??
 
         codigosEscenarios = list(dicEscenarios.keys())
         codigosFranjas = list(dicFranjas.keys())
@@ -90,13 +87,13 @@ def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
         for i in range(len(LUS)):
             for j in range(len(LUS[i])):
                 if LUS[i][j] != "":
-                    escritor.writerow(["SABADO", codigosEscenarios[i], codigosFranjas[j], LUS[i][j]])
+                    escritor.writerow(["SABADO", codigosEscenarios[i], codigosFranjas[j], LUS[i][j]]) # ACA LO MISMO
 
         # Guardar lineup del DOMINGO
         for i in range(len(LUD)):
             for j in range(len(LUD[i])):
                 if LUD[i][j] != "":
-                    escritor.writerow(["DOMINGO", codigosEscenarios[i], codigosFranjas[j], LUD[i][j]])
+                    escritor.writerow(["DOMINGO", codigosEscenarios[i], codigosFranjas[j], LUD[i][j]])  # ACA LO MISMO
 
 def cargarAsistencia(dicEscenarios, dicFranjas):
     asistencia_sabado = [[-2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
@@ -108,7 +105,7 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 
     try:
         with open("asistencias.csv", "r", newline="", encoding="utf-8") as archivo:
-            lector = csv.DictReader(archivo)
+            lector = csv.DictReader(archivo) # DICT
 
             numeroFila = 1  # el encabezado es la línea 1, los datos empiezan en la 2
             for fila in lector:
@@ -170,7 +167,7 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
     with open("asistencias.csv", "w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
-        escritor.writerow(["dia", "codigo_escenario", "codigo_franja", "asistencia"])
+        escritor.writerow(["dia", "codigo_escenario", "codigo_franja", "asistencia"]) # aca tambien sacar
 
         codigosEscenarios = list(dicEscenarios.keys())
         codigosFranjas = list(dicFranjas.keys())

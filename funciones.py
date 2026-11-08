@@ -9,7 +9,7 @@ def artistaAsignado(lineup, codArtista, indiceHorario): #adaptar a nuevas estruc
 
 def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y aplicar nuevas validaciones
     codArtista = input("Codigo de Artista a buscar: ").upper()
-    art = obtenerIndex(A, codArtista, 0)
+    art = obtenerIndiceCodigo(A, codArtista, 0)
     if art == -1:
         print("El codigo no existe o mal ingresado")
     else:
@@ -18,14 +18,14 @@ def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y
             dia = input("Dia ingresado invalido. ¿A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
 
         horario = input("¿En que horario? (Mediodia/Tarde/Noche): ").capitalize()
-        while obtenerIndex(H, horario, 1) == -1:
+        while obtenerIndiceCodigo(H, horario, 1) == -1:
             horario = input("Horario invalido. ¿En que horario? (Mediodia/Tarde/Noche): ").capitalize()
-        indiceHorario = obtenerIndex(H, horario, 1)
+        indiceHorario = obtenerIndiceCodigo(H, horario, 1)
 
         escenario = input("¿En que escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
-        while obtenerIndex(E, escenario, 1) == -1:
+        while obtenerIndiceCodigo(E, escenario, 1) == -1:
             escenario = input("Escenario invalido. ¿En que escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
-        indiceEscenario = obtenerIndex(E, escenario, 1)
+        indiceEscenario = obtenerIndiceCodigo(E, escenario, 1)
 
         lineup = LUS if dia == "SABADO" else LUD
         asistencia = AS if dia == "SABADO" else AD
@@ -35,7 +35,7 @@ def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y
         else:
             if lineup[indiceEscenario][indiceHorario] != "":
                 cod_act = lineup[indiceEscenario][indiceHorario]
-                indice_act = obtenerIndex(A, cod_act, 0)
+                indice_act = obtenerIndiceCodigo(A, cod_act, 0)
                 nom_act = A[indice_act][1] if indice_act != -1 else cod_act
                 
                 resp = input(f"El {dia.lower()} en {escenario} ({horario}) ya tiene asignado a {nom_act}, ¿quiere reemplazarlo? (S/N): ").upper()
@@ -49,7 +49,7 @@ def asignarLineUp(A, LUS, LUD, AS, AD, E, H): # guardar caambios en lineup.csv y
             print(f"Artista {A[art][1]} asignado correctamente.")
 
 def buscarArtista(A, codArtista, LUS, LUD, AS, AD, E, H): #adaptar a datos recuperados de csv y a diccionarios
-    indice = obtenerIndex(A, codArtista, 0)
+    indice = obtenerIndiceCodigo(A, codArtista, 0)
     if indice == -1:
         print("El artista que busca no existe o se ingreso mal el codigo")
     else:
@@ -130,16 +130,16 @@ def registrarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima): #actualizar a
         dia = input("Día inválido. Ingrese SABADO o DOMINGO: ").upper()
 
     horario = input("¿En qué horario? (Mediodia/Tarde/Noche): ").capitalize()
-    indiceHorario = obtenerIndex(H, horario, 1)
+    indiceHorario = obtenerIndiceCodigo(H, horario, 1)
     while indiceHorario == -1:
         horario = input("Horario inválido. Ingrese (Mediodia/Tarde/Noche): ").capitalize()
-        indiceHorario = obtenerIndex(H, horario, 1)
+        indiceHorario = obtenerIndiceCodigo(H, horario, 1)
 
     escenario = input("¿En qué escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
-    indiceEscenario = obtenerIndex(E, escenario, 1)
+    indiceEscenario = obtenerIndiceCodigo(E, escenario, 1)
     while indiceEscenario == -1:
         escenario = input("Escenario inválido. Ingrese (Main Stage/Electronic Arena/Mata Club): ").title()
-        indiceEscenario = obtenerIndex(E, escenario, 1)
+        indiceEscenario = obtenerIndiceCodigo(E, escenario, 1)
 
     lineup = LUS if dia == "SABADO" else LUD
     asistencia_matriz = AS if dia == "SABADO" else AD
@@ -162,16 +162,16 @@ def modificarAsistencia(LUS, LUD, AS, AD, E, H, capacidad_maxima):
         dia = input("Día no válido o inexistente. Ingrese SABADO o DOMINGO: ").upper()
 
     horario = input("¿En qué horario? (Mediodia/Tarde/Noche): ").capitalize()
-    indiceHorario = obtenerIndex(H, horario, 1)
+    indiceHorario = obtenerIndiceCodigo(H, horario, 1)
     while indiceHorario == -1:
         horario = input("Horario no válido o inexistente. Ingrese (Mediodia/Tarde/Noche): ").capitalize()
-        indiceHorario = obtenerIndex(H, horario, 1)
+        indiceHorario = obtenerIndiceCodigo(H, horario, 1)
 
     escenario = input("¿En qué escenario? (Main Stage/Electronic Arena/Mata Club): ").title()
-    indiceEscenario = obtenerIndex(E, escenario, 1)
+    indiceEscenario = obtenerIndiceCodigo(E, escenario, 1)
     while indiceEscenario == -1:
         escenario = input("Escenario no válido o inexistente. Ingrese (Main Stage/Electronic Arena/Mata Club): ").title()
-        indiceEscenario = obtenerIndex(E, escenario, 1)
+        indiceEscenario = obtenerIndiceCodigo(E, escenario, 1)
 
     lineup = LUS if dia == "SABADO" else LUD
     asistencia_matriz = AS if dia == "SABADO" else AD
@@ -223,7 +223,7 @@ def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
         print(f"Mayor Convocatoria: {max_convocatoria} espectadores")
         for item in convocatorias:
             if item[1] == max_convocatoria:
-                indice = obtenerIndex(A, item[0], 0)
+                indice = obtenerIndiceCodigo(A, item[0], 0)
                 print(f"- Artista: {A[indice][1]}")
         print()
 
@@ -240,7 +240,7 @@ def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
         for i in range(len(top3)):
             codigo = top3[i][0]
             convocatoria = top3[i][1]
-            indice = obtenerIndex(A, codigo, 0)
+            indice = obtenerIndiceCodigo(A, codigo, 0)
             print(f"{i + 1}. {A[indice][1]} - {convocatoria} espectadores")
             print()
 
@@ -250,7 +250,7 @@ def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_max
     for i in range(len(LUS)):
         for j in range(len(LUS[i])):
             if LUS[i][j] != "" and AS[i][j] > capacidad_maxima:
-                indice = obtenerIndex(A, LUS[i][j], 0)
+                indice = obtenerIndiceCodigo(A, LUS[i][j], 0)
                 art_nombre = A[indice][1] if indice != -1 else LUS[i][j]
                 show = ("SÁBADO", E[i][1], H[j][1], art_nombre, AS[i][j])
                 shows_superados.append(show)
@@ -258,7 +258,7 @@ def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H, capacidad_max
     for i in range(len(LUD)):
         for j in range(len(LUD[i])):
             if LUD[i][j] != "" and AD[i][j] > capacidad_maxima:
-                indice = obtenerIndex(A, LUD[i][j], 0)
+                indice = obtenerIndiceCodigo(A, LUD[i][j], 0)
                 art_nombre = A[indice][1] if indice != -1 else LUD[i][j]
                 show = ("DOMINGO", E[i][1], H[j][1], art_nombre, AD[i][j])
                 shows_superados.append(show)
@@ -332,22 +332,6 @@ def cargarUsuarios(): #leer usuarioss y contras desde usuarios.csv
 def iniciarSesion(): #solicitar usuario y contraseña y validar credenciales antes de mostrar menu
     pass
 
-"""
-CONFIRMAR PARA BORRAR PORQUE ESTÁN DECLARADOS EN ARCHIVOS.PY
-def cargarLineUp():
-    pass
-    #lee lineup.csv al iniciar y reconstruye las estructuras
-
-def cargarAsistencia():
-    pass
-    #lee asistencias.csv y recupera lo registrado
-
-def guardarLineUp():
-    pass
-
-def guardarAsistencia():
-    pass
-"""
 def validarCodigoArtista():
     pass
 
