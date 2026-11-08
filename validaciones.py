@@ -1,5 +1,11 @@
 import re
 
+def validarContrasenia(contrasenia):
+    patron = r"^#[A-Z][a-z]+[0-9]{3}$"
+    if not re.match(patron, contrasenia):
+        raise ValueError("La contraseña debe empezar con '#', seguido de una mayúscula, una o más minúsculas y terminar con tres números.")
+    return True
+
 def validarFormatoCodigo(codigo, prefijo):
     patron = "^" + prefijo + "[0-9]{2}$"
     if not re.match(patron, codigo):
