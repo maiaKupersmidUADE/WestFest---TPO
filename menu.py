@@ -71,8 +71,8 @@ def main():
                     elif opcion == 6:
                         funciones.consultarArtistaMayorConvocatoria(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo)
                     elif opcion == 7:
-                        total_sabado = obtenerTotalRecursivo(AS)
-                        total_domingo = obtenerTotalRecursivo(AD)
+                        totalS = funciones.obtenerTotalRecursivo(asistencia_sabado)
+                        totalD = funciones.obtenerTotalRecursivo(asistencia_domingo)
                         print(f"Asistencia total del sabado: {totalS}")
                         print(f"Asistencia total del domingo: {totalD}")
                     elif opcion == 8:
