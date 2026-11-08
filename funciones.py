@@ -161,14 +161,15 @@ def consultarLineUp(LUS, LUD, E, A, H):
         print()
         i += 1
 
-def obtenerTotal(matriz):
-    total = 0
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            if matriz[i][j] >= 0:
-                total += matriz[i][j]
-    return total
-
+def obtenerTotalRecursivo(matriz, i=0, j=0):
+    if i == len(matriz):
+        return 0
+    if j == len(matriz[i]):
+        return obtenerTotalRecursivo(matriz, i + 1, 0)
+    if matriz[i][j] >= 0:
+        return matriz[i][j] + obtenerTotalRecursivo(matriz, i, j + 1)
+    else:
+        return obtenerTotalRecursivo(matriz, i, j + 1)
 
 def registrarAsistencia(LUS, LUD, AS, AD, E, H):
     dia = input("¿De que dia queres registrar asistencia? (SABADO/DOMINGO): ").upper()
