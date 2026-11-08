@@ -349,18 +349,33 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
         for i in range(len(AS)):
             if AS[i][j] >= 0:
                 total += AS[i][j]
+        asistencia_por_franja.append(("Sabado", H[codigo], total))
+        j += 1
+
+    j = 0
+    for codigo in H:
+        total = 0
         for i in range(len(AD)):
             if AD[i][j] >= 0:
                 total += AD[i][j]
-        asistencia_por_franja.append((H[codigo], total))
+        asistencia_por_franja.append(("Domingo", H[codigo], total))
         j += 1
-    asistencia_por_franja.sort(key=lambda x: x[1], reverse=True)
+
+    for i in range(len(asistencia_por_franja) - 1):
+        mayor = i
+        for j in range(i + 1, len(asistencia_por_franja)):
+            if asistencia_por_franja[j][2] > asistencia_por_franja[mayor][2]:
+                mayor = j
+        aux = asistencia_por_franja[i]
+        asistencia_por_franja[i] = asistencia_por_franja[mayor]
+        asistencia_por_franja[mayor] = aux
+
     top3 = asistencia_por_franja[:3]
     print()
     print("TOP 3 FRANJAS HORARIAS CON MAYOR ASISTENCIA")
     print("-" * 45)
     for i in range(len(top3)):
-        print(f"{i + 1}. {top3[i][0]} - {top3[i][1]} espectadores")
+        print(f"{i + 1}. {top3[i][0]} - {top3[i][1]}: {top3[i][2]} espectadores")
 
 def crearDiccionariosAuxiliares(config):
     dicArtistas = {}
@@ -417,7 +432,6 @@ def consultarAsistenciaTotalPorDia(AS,AD):
     print("Sábado:", total_sabado, "espectadores")
     print("Domingo:", total_domingo, "espectadores")   
     
-
 def consultarShowsSinAsistencia():
     pass
 
