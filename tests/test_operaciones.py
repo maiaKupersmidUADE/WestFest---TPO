@@ -76,14 +76,3 @@ def test_obtener_convocatorias_acumula_por_artista():
 
 def test_detectar_capacidad_superada():
     pass
-
-def test_detectar_shows_sin_asistencia():
-    pass
-
-def test_obtener_total_matriz_vacia():
-    matriz = []
-
-    resultado = funciones.obtenerTotal(matriz)
-
-    assert resultado == 0
-

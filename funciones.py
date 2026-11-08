@@ -342,6 +342,8 @@ def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H):
             print(f"Asistencia: {shows_superados[i][4]} espectadores")
             print()
 
+    return shows_superados
+
 def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
     asistencia_por_franja = []
     j = 0
