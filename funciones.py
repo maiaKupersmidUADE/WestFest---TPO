@@ -433,8 +433,64 @@ def consultarAsistenciaTotalPorDia(AS,AD):
     print("Sábado:", total_sabado, "espectadores")
     print("Domingo:", total_domingo, "espectadores")   
     
-def consultarShowsSinAsistencia():
-    pass
+def consultarShowsSinAsistencia(A, LUS, LUD, AS, AD, E, H):
 
-def generarReporte():
+    shows_sin_asistencia = []
+
+    #sab
+    i = 0
+    for codigoEscenario in E:
+        for j in range(len(LUS[i])):
+            if LUS[i][j] != "" and AS[i][j] == -1:
+
+                codigoHorario = obtenerCodigo(H, j, "posicion")
+                codigoArtista = LUS[i][j]
+
+                show = (
+                    "SABADO",
+                    E[codigoEscenario]["nombre"],
+                    H[codigoHorario],
+                    A[codigoArtista]
+                )
+
+                shows_sin_asistencia.append(show)
+        i += 1
+
+    #dom
+    i = 0
+    for codigoEscenario in E:
+        for j in range(len(LUD[i])):
+            if LUD[i][j] != "" and AD[i][j] == -1:
+
+                codigoHorario = obtenerCodigo(H, j, "posicion")
+                codigoArtista = LUD[i][j]
+
+                show = (
+                    "DOMINGO",
+                    E[codigoEscenario]["nombre"],
+                    H[codigoHorario],
+                    A[codigoArtista]
+                )
+
+                shows_sin_asistencia.append(show)
+        i += 1
+
+    #mostrar rdos
+    print()
+    print("SHOWS SIN ASISTENCIA REGISTRADA")
+    print("-" * 45)
+
+    if len(shows_sin_asistencia) == 0:
+        print("No hay shows pendientes de registrar asistencia.")
+    else:
+        for show in shows_sin_asistencia:
+            print(f"Dia: {show[0]}")
+            print(f"Escenario: {show[1]}")
+            print(f"Horario: {show[2]}")
+            print(f"Artista: {show[3]}")
+            print()
+
+    return shows_sin_asistencia
+
+def generarReporte(A, LUS, LUD, AS, AD, E, H):
     pass
