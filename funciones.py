@@ -42,11 +42,11 @@ def asignarLineUp(A, LUS, LUD, AS, AD, E, H):
     while dia != "SABADO" and dia != "DOMINGO":
         dia = input("Dia ingresado invalido. ¿A que dia queres asignarlo? (SABADO/DOMINGO): ").upper()
 
-    horario = input("¿En que horario? (Mediodía/Tarde/Noche): ").capitalize()
+    horario = input("¿En que horario? (Mediodia/Tarde/Noche): ").capitalize()
     codigoHorario = obtenerCodigo(H, horario, "nombre")
 
     while codigoHorario == "":
-        horario = input("Horario invalido. Ingrese Mediodía, Tarde o Noche: ").capitalize()
+        horario = input("Horario invalido. Ingrese Mediodia, Tarde o Noche: ").capitalize()
         codigoHorario = obtenerCodigo(H, horario, "nombre")
     
     indiceHorario = obtenerCodigo(H, codigoHorario, "indice")
@@ -176,10 +176,10 @@ def registrarAsistencia(LUS, LUD, AS, AD, E, H):
     while dia != "SABADO" and dia != "DOMINGO":
         dia = input("Dia invalido. Ingrese SABADO o DOMINGO: ").upper()
 
-    horario = input("¿En que horario? (Mediodía/Tarde/Noche): ").capitalize()
+    horario = input("¿En que horario? (Mediodia/Tarde/Noche): ").capitalize()
     codigoHorario = obtenerCodigo(H, horario, "nombre")
     while codigoHorario == "":
-        horario = input("Horario invalido. Ingrese Mediodía, Tarde o Noche: ").capitalize()
+        horario = input("Horario invalido. Ingrese Mediodíi, Tarde o Noche: ").capitalize()
         codigoHorario = obtenerCodigo(H, horario, "nombre")
     indiceHorario = obtenerCodigo(H, codigoHorario, "indice")
 
@@ -210,10 +210,10 @@ def modificarAsistencia(LUS, LUD, AS, AD, E, H):
     while dia != "SABADO" and dia != "DOMINGO":
         dia = input("Dia no valido. Ingrese SABADO o DOMINGO: ").upper()
 
-    horario = input("¿En que horario? (Mediodía/Tarde/Noche): ").capitalize()
+    horario = input("¿En que horario? (Mediodia/Tarde/Noche): ").capitalize()
     codigoHorario = obtenerCodigo(H, horario, "nombre")
     while codigoHorario == "":
-        horario = input("Horario no valido. Ingrese Mediodía, Tarde o Noche: ").capitalize()
+        horario = input("Horario no valido. Ingrese Mediodia, Tarde o Noche: ").capitalize()
         codigoHorario = obtenerCodigo(H, horario, "nombre")
     indiceHorario = obtenerCodigo(H, codigoHorario, "indice")
 
