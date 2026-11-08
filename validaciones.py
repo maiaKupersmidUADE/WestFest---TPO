@@ -1,30 +1,35 @@
 import re
 
+def validarFormatoCodigo(codigo, prefijo):
+    patron = "^" + prefijo + "[0-9]{2}$"
+    if not re.match(patron, codigo):
+        raise ValueError("Formato de código incorrecto.")
+
 def validarLista(config, clave, campos):
     lista = config[clave]
     codigosVistos = []
 
-    if type(lista) != list or len(lista) == 0:
+    if len(lista) == 0:
         raise ValueError(f"'{clave}' debe ser una lista con al menos un elemento.")
 
-    for item in lista:
-        if type(item) != dict:
-            raise ValueError(f"Los elementos de '{clave}' deben ser diccionarios.")
+    if clave == "artistas":
+        prefijo = "A"
+    elif clave == "escenarios":
+        prefijo = "E"
+    else:
+        prefijo = "F"
 
+    for item in lista:
         for campo in campos:
-            if campo not in item or type(item[campo]) != str or item[campo].strip() == "":
+            if campo not in item or item[campo].strip() == "":
                 raise ValueError(f"El campo '{campo}' de '{clave}' es inválido.")
+        validarFormatoCodigo(item["codigo"], prefijo)
 
         if item["codigo"] in codigosVistos:
             raise ValueError(f"El código {item['codigo']} está repetido en '{clave}'.")
-
         codigosVistos.append(item["codigo"])
 
-
 def validarConfiguracion(config):
-    if type(config) != dict:
-        raise ValueError("El archivo de configuración debe contener un objeto JSON.")
-
     for clave in ("artistas", "escenarios", "franjas", "dias"):
         if clave not in config:
             raise ValueError(f"Falta la clave '{clave}' en la configuración.")
@@ -37,16 +42,16 @@ def validarConfiguracion(config):
         if "capacidad_maxima" not in escenario:
             raise ValueError("Falta la capacidad máxima de un escenario.")
         capacidad = escenario["capacidad_maxima"]
-        if type(capacidad) != int or capacidad <= 0:
-            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser un entero mayor a cero.")
+        if capacidad <= 0:
+            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser mayor a cero.")
 
     dias = config["dias"]
-    if type(dias) != list or len(dias) != 2:
+    if len(dias) != 2:
         raise ValueError("'dias' debe contener sábado y domingo.")
     if dias != ["sabado", "domingo"]:
         raise ValueError("'dias' debe contener sabado y domingo.")
 
-def pedir_entero_positivo(mensaje): # validar con pytest
+def pedir_entero_positivo(mensaje):
     while True:
         try:
             num = int(input(mensaje))
@@ -58,19 +63,13 @@ def pedir_entero_positivo(mensaje): # validar con pytest
             print("\nError: Debe ingresar un numero entero valido.")
 
 def validarCodigoArtista(codigo, A):
-    if not re.fullmatch(r"^A[0-9]{2}$", codigo):
-        raise ValueError("Formato de código incorrecto.")
-
+    validarFormatoCodigo(codigo, "A")
     if codigo not in A:
         raise ValueError("El artista no existe.")
-
     return True
 
 def validarCodigoEscenario(codigo, E):
-    if not re.fullmatch(r"^E[0-9]{2}$", codigo):
-        raise ValueError("Formato de codigo incorrecto.")
-
+    validarFormatoCodigo(codigo, "E")
     if codigo not in E:
         raise ValueError("El escenario no existe.")
-
     return True
