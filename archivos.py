@@ -203,3 +203,11 @@ def cargarUsuarios():
         print("Error: no hay usuarios registrados.")
         return None
     return dicUsuarios
+
+def guardarReporte(reporte):
+    try:
+        with open("reporte.txt", "w", encoding="utf-8") as archivo:
+            archivo.write(reporte)
+        print("Reporte generado correctamente.")
+    except OSError:
+        print("Error: no se pudo generar reporte.txt.")
