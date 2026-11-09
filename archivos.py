@@ -87,23 +87,25 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
     return lineup_sabado, lineup_domingo, incidencias
 
 def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
-    with open("lineup.csv", "w", encoding="utf-8") as archivo:
-        archivo.write("dia,codigo_escenario,codigo_franja,codigo_artista\n")
+    try:
+        with open("lineup.csv", "w", encoding="utf-8") as archivo:
+            archivo.write("dia,codigo_escenario,codigo_franja,codigo_artista\n")
+            codigosEscenarios = list(dicEscenarios.keys())
+            codigosFranjas = list(dicFranjas.keys())
 
-        codigosEscenarios = list(dicEscenarios.keys())
-        codigosFranjas = list(dicFranjas.keys())
+            # Guardar lineup del SABADO
+            for i in range(len(LUS)):
+                for j in range(len(LUS[i])):
+                    if LUS[i][j] != "":
+                        archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + LUS[i][j] + "\n")
 
-        # Guardar lineup del SABADO
-        for i in range(len(LUS)):
-            for j in range(len(LUS[i])):
-                if LUS[i][j] != "":
-                    archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + LUS[i][j] + "\n")
-
-        # Guardar lineup del DOMINGO
-        for i in range(len(LUD)):
-            for j in range(len(LUD[i])):
-                if LUD[i][j] != "":
-                    archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + LUD[i][j] + "\n")
+            # Guardar lineup del DOMINGO
+            for i in range(len(LUD)):
+                for j in range(len(LUD[i])):
+                    if LUD[i][j] != "":
+                        archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + LUD[i][j] + "\n")
+    except OSError:
+        print("Error: no se pudo guardar lineup.csv.")
 
 def cargarAsistencia(dicEscenarios, dicFranjas):
     asistencia_sabado = [[-2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
@@ -178,19 +180,23 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
     return asistencia_sabado, asistencia_domingo, incidencias
 
 def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
-    with open("asistencias.csv", "w", encoding="utf-8") as archivo:
-        archivo.write("dia,codigo_escenario,codigo_franja,asistencia\n")
-        codigosEscenarios = list(dicEscenarios.keys())
-        codigosFranjas = list(dicFranjas.keys())
-        for i in range(len(AS)):
-            for j in range(len(AS[i])):
-                if AS[i][j] != -2:
-                    archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AS[i][j]) + "\n")
+    try:
+        with open("asistencias.csv", "w", encoding="utf-8") as archivo:
+            archivo.write("dia,codigo_escenario,codigo_franja,asistencia\n")
+            codigosEscenarios = list(dicEscenarios.keys())
+            codigosFranjas = list(dicFranjas.keys())
 
-        for i in range(len(AD)):
-            for j in range(len(AD[i])):
-                if AD[i][j] != -2:
-                    archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AD[i][j]) + "\n")
+            for i in range(len(AS)):
+                for j in range(len(AS[i])):
+                    if AS[i][j] != -2:
+                        archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AS[i][j]) + "\n")
+
+            for i in range(len(AD)):
+                for j in range(len(AD[i])):
+                    if AD[i][j] != -2:
+                        archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AD[i][j]) + "\n")
+    except OSError:
+        print("Error: no se pudo guardar asistencias.csv.")
 
 def cargarUsuarios():
     dicUsuarios = {}

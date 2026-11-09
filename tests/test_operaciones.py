@@ -72,8 +72,8 @@ def test_obtener_convocatorias_acumula_por_artista():
         asistencia_domingo
     )
 
-    assert resultado == [("A01", 300), ("A02", 50)]
-
+    assert resultado == {"A01": 300, "A02": 50}
+    
 def test_detectar_capacidad_superada():
     A = {
         "A01": "Lady Gagá",
