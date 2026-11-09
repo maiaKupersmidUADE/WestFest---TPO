@@ -39,10 +39,17 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
                         if len(datos) != 4:
                             raise ValueError("La fila está incompleta o tiene columnas de más.")
 
-                        dia = datos[0].upper()
-                        codEscenario = datos[1]
-                        codFranja = datos[2]
-                        codArtista = datos[3]
+                        registro = {
+                            "dia": datos[0].upper(),
+                            "codigo_escenario": datos[1],
+                            "codigo_franja": datos[2],
+                            "codigo_artista": datos[3]
+                        }
+
+                        dia = registro["dia"]
+                        codEscenario = registro["codigo_escenario"]
+                        codFranja = registro["codigo_franja"]
+                        codArtista = registro["codigo_artista"]
 
                         if codEscenario not in dicEscenarios:
                             raise ValueError(f"El escenario {codEscenario} no existe.")
@@ -115,13 +122,22 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
                 try:
                     if fila.strip() != "":
                         datos = fila.strip().split(",")
+
                         if len(datos) != 4:
                             raise ValueError("La fila está incompleta o tiene columnas de más.")
-                        dia = datos[0].upper()
-                        codEscenario = datos[1]
-                        codFranja = datos[2]
-                        textoAsistencia = datos[3]
-                        
+
+                        registro = {
+                            "dia": datos[0].upper(),
+                            "codigo_escenario": datos[1],
+                            "codigo_franja": datos[2],
+                            "asistencia": datos[3]
+                        }
+
+                        dia = registro["dia"]
+                        codEscenario = registro["codigo_escenario"]
+                        codFranja = registro["codigo_franja"]
+                        textoAsistencia = registro["asistencia"]
+
                         if codEscenario not in dicEscenarios:
                             raise ValueError(f"El escenario {codEscenario} no existe.")
 
@@ -186,9 +202,15 @@ def cargarUsuarios():
                 numeroFila += 1
                 if fila.strip() != "":
                     datos = fila.strip().split(",")
+
                     if len(datos) == 2 and datos[0] != "" and datos[1] != "":
-                        usuario = datos[0]
-                        contraseña = datos[1]
+                        registro = {
+                            "usuario": datos[0],
+                            "contraseña": datos[1]
+                        }
+
+                        usuario = registro["usuario"]
+                        contraseña = registro["contraseña"]
                         dicUsuarios[usuario] = contraseña
                     else:
                         print(f"Error en la fila {numeroFila} de usuarios.csv.")

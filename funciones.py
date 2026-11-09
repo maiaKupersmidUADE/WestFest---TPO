@@ -280,8 +280,9 @@ def modificarAsistencia(LUS, LUD, AS, AD, E, H):
             print(f"Atencion: Se supero la capacidad del escenario ({capacidad_maxima} espectadores).")
 
 
+# DICCIONARIO ACUMULADOR
 def obtenerConvocatorias(A, LUS, LUD, AS, AD):
-    convocatorias = []
+    convocatorias = {}
 
     for codigo in A:
         convocatoria = 0
@@ -299,11 +300,11 @@ def obtenerConvocatorias(A, LUS, LUD, AS, AD):
                         convocatoria += AD[i][j]
 
         if convocatoria > 0:
-            convocatorias.append((codigo, convocatoria))
+            convocatorias[codigo] = convocatoria
 
-    convocatorias.sort(key=lambda x: x[1], reverse=True)
+    convocatoriasOrdenadas = dict(sorted(convocatorias.items(), key=lambda x: x[1], reverse=True))
 
-    return convocatorias
+    return convocatoriasOrdenadas
 
 
 def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
@@ -314,16 +315,16 @@ def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
         print("No hay artistas con asistencia registrada.")
 
     else:
-        max_convocatoria = convocatorias[0][1]
+        max_convocatoria = max(convocatorias.values())
 
         print()
         print("ARTISTA(S) CON MAYOR CONVOCATORIA")
         print("-" * 40)
         print(f"Mayor Convocatoria: {max_convocatoria} espectadores")
 
-        for item in convocatorias:
-            if item[1] == max_convocatoria:
-                print(f"- Artista: {A[item[0]]}")
+        for codigo in convocatorias:
+            if convocatorias[codigo] == max_convocatoria:
+                print(f"- Artista: {A[codigo]}")
 
         print()
 
@@ -336,7 +337,7 @@ def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
         print("No hay suficientes artistas con asistencia registrada para mostrar el Top 3.")
 
     else:
-        top3 = convocatorias[:3]
+        top3 = list(convocatorias.items())[:3]
 
         print()
         print("TOP 3 ARTISTAS CON MAYOR CONVOCATORIA")
@@ -569,19 +570,18 @@ def generarReporte(A, LUS, LUD, AS, AD, E, H, incidencias):
     reporte += "ARTISTAS CON MAYOR CONVOCATORIA\n"
 
     if len(convocatorias) > 0:
-        mayor = convocatorias[0][1]
+        mayor = max(convocatorias.values())
 
         reporte += f"Mayor convocatoria: {mayor} espectadores\n"
 
-        for artista in convocatorias:
-            if artista[1] == mayor:
-                reporte += f"- {A[artista[0]]}\n"
+        for codigo in convocatorias:
+            if convocatorias[codigo] == mayor:
+                reporte += f"- {A[codigo]}\n"
 
         reporte += "\nTop 3 de artistas:\n"
 
-        for i in range(min(3, len(convocatorias))):
-            codigo = convocatorias[i][0]
-            reporte += f"{i + 1}. {A[codigo]} - {convocatorias[i][1]} espectadores\n"
+        for i, (codigo, convocatoria) in enumerate(list(convocatorias.items())[:3]):
+            reporte += f"{i + 1}. {A[codigo]} - {convocatoria} espectadores\n"
 
     else:
         reporte += "No hay artistas con asistencia registrada.\n"
