@@ -118,7 +118,7 @@ asistencia_domingo
 Los valores utilizados son:
 |    Valor    | Significado                                           |
 | :---------: | ----------------------------------------------------- |
-|     `-2`    | No hay artista asignado                               |
+|     `-2`    | No hay show asignado                               |
 |     `-1`    | Hay un show pero todavía no se registró la asistencia |
 | `0` o mayor | Cantidad de espectadores registrada                   |
 
