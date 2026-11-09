@@ -208,4 +208,5 @@ def main():
     else:
         print("El programa se cerrara.")
 
-main()
+if __name__ == "__main__":
+    main()
