@@ -6,13 +6,16 @@ def iniciarSesion(dicUsuarios):
         usuario, contraseña = pedirCredenciales()
         try:
             validaciones.validarContrasenia(contraseña)
+            
             if usuario in dicUsuarios and dicUsuarios[usuario] == contraseña:
                 print("\nInicio de sesión exitoso.")
                 acceso = True
             else:
                 print("\nUsuario o contraseña incorrectos. Intente nuevamente.\n")
+                
         except ValueError as error:
             print(f"\nError de formato: {error}\nIntente nuevamente.\n")
+            
     return acceso
 
 def artistaAsignado(lineup, codArtista, indiceHorario):
