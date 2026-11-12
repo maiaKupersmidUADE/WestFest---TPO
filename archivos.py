@@ -258,3 +258,20 @@ def guardarReporte(reporte):
         print("Reporte generado correctamente.")
     except OSError:
         print("Error: no se pudo generar reporte.txt.")
+
+def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
+    try:
+        with open("asistencias.csv", "w", encoding="utf-8") as archivo:
+            archivo.write("dia,codigo_escenario,codigo_franja,asistencia\n")
+            codigosEscenarios = list(dicEscenarios.keys())
+            codigosFranjas = list(dicFranjas.keys())
+            for i in range(len(AS)):
+                for j in range(len(AS[i])):
+                    if AS[i][j] != -2:
+                        archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AS[i][j]) + "\n")
+            for i in range(len(AD)):
+                for j in range(len(AD[i])):
+                    if AD[i][j] != -2:
+                        archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AD[i][j]) + "\n")
+    except OSError:
+        print("Error: no se pudo guardar asistencias.csv.")

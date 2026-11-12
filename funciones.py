@@ -233,19 +233,27 @@ def obtenerConvocatorias(A, LUS, LUD, AS, AD):
     convocatorias = {}
     for codigo in A:
         convocatoria = 0
+        asistenciaRegistrada = False
+
+        # Recorrer el lineup del sábado
         for i in range(len(LUS)):
             for j in range(len(LUS[i])):
                 if LUS[i][j] == codigo:
                     if AS[i][j] >= 0:
                         convocatoria += AS[i][j]
+                        asistenciaRegistrada = True
 
+        # Recorrer el lineup del domingo
         for i in range(len(LUD)):
             for j in range(len(LUD[i])):
                 if LUD[i][j] == codigo:
                     if AD[i][j] >= 0:
                         convocatoria += AD[i][j]
+                        asistenciaRegistrada = True
 
-        convocatorias[codigo] = convocatoria
+        if asistenciaRegistrada:
+            convocatorias[codigo] = convocatoria
+
     convocatoriasOrdenadas = dict(sorted(convocatorias.items(), key=lambda x: x[1], reverse=True))
     return convocatoriasOrdenadas
 

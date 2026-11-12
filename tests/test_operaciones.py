@@ -1,6 +1,7 @@
 import pytest
 import validaciones
 import funciones
+import archivos
 
 def test_validar_codigo_artista_correcto():
     artistas = {
@@ -170,3 +171,20 @@ def test_asistencia_igual_a_capacidad_maxima():
     )
 
     assert resultado == []
+
+def test_guardar_y_cargar_asistencias():
+    escenarios = {"E01": {"nombre": "Main Stage", "capacidad_maxima": 5000}}
+    franjas = {"F01": "Tarde", "F02": "Noche"}
+
+    asistencia_sabado = [[1500, -1]]
+    asistencia_domingo = [[0, -2]]
+
+    lineup_sabado = [["A01", "A02"]]
+    lineup_domingo = [["A03", ""]]
+
+    archivos.guardarAsistencia(asistencia_sabado, asistencia_domingo, escenarios, franjas)
+    sabado, domingo, incidencias = archivos.cargarAsistencia(escenarios, franjas, lineup_sabado, lineup_domingo)
+
+    assert sabado == [[1500, -1]]
+    assert domingo == [[0, -2]]
+    assert incidencias == []
