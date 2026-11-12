@@ -74,6 +74,14 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
                         if grilla[indiceEscenario][indiceFranja] != "":
                             raise ValueError("Esa posición está repetida en el archivo.")
 
+                        artistaRepetido = False
+                        for i in range(len(grilla)):
+                            if grilla[i][indiceFranja] == codArtista:
+                                artistaRepetido = True
+
+                        if artistaRepetido:
+                            raise ValueError(f"El artista {codArtista} ya está asignado en otra posición de esa franja.")
+
                         grilla[indiceEscenario][indiceFranja] = codArtista
 
                 except ValueError as error:
@@ -107,7 +115,7 @@ def guardarLineUp(LUS, LUD, dicEscenarios, dicFranjas):
     except OSError:
         print("Error: no se pudo guardar lineup.csv.")
 
-def cargarAsistencia(dicEscenarios, dicFranjas):
+def cargarAsistencia(dicEscenarios, dicFranjas, lineup_sabado, lineup_domingo):
     asistencia_sabado = [[-2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
     asistencia_domingo = [[-2 for j in range(len(dicFranjas))] for i in range(len(dicEscenarios))]
 
@@ -119,6 +127,7 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
         with open("asistencias.csv", "r", encoding="utf-8") as archivo:
             lineas = archivo.readlines()
             numeroFila = 1
+
             for fila in lineas[1:]:
                 numeroFila += 1
                 try:
@@ -148,6 +157,7 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 
                         if dia != "SABADO" and dia != "DOMINGO":
                             raise ValueError(f"El dia {dia} no es valido.")
+
                         try:
                             asistencia = int(textoAsistencia)
                         except ValueError:
@@ -161,8 +171,13 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 
                         if dia == "SABADO":
                             grilla = asistencia_sabado
+                            lineup = lineup_sabado
                         else:
                             grilla = asistencia_domingo
+                            lineup = lineup_domingo
+
+                        if lineup[indiceEscenario][indiceFranja] == "":
+                            raise ValueError("Hay una asistencia registrada para una posición sin show.")
 
                         if grilla[indiceEscenario][indiceFranja] != -2:
                             raise ValueError("Esa posición está repetida en el archivo.")
@@ -171,32 +186,36 @@ def cargarAsistencia(dicEscenarios, dicFranjas):
 
                 except ValueError as error:
                     incidencias.append(f"Fila {numeroFila} de asistencias.csv: {error}")
+
     except FileNotFoundError:
+        for i in range(len(lineup_sabado)):
+            for j in range(len(lineup_sabado[i])):
+                if lineup_sabado[i][j] != "":
+                    asistencia_sabado[i][j] = -1
+
+        for i in range(len(lineup_domingo)):
+            for j in range(len(lineup_domingo[i])):
+                if lineup_domingo[i][j] != "":
+                    asistencia_domingo[i][j] = -1
+
         guardarAsistencia(asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
-        incidencias.append("No se encontró asistencias.csv, se creó un archivo nuevo vacío.")
+        incidencias.append("No se encontró asistencias.csv, se creó un archivo nuevo.")
+
     except OSError:
         incidencias.append("No se pudo leer asistencias.csv.")
 
+    # Los shows que no tenían una asistencia registrada quedan pendientes (-1).
+    for i in range(len(lineup_sabado)):
+        for j in range(len(lineup_sabado[i])):
+            if lineup_sabado[i][j] != "" and asistencia_sabado[i][j] == -2:
+                asistencia_sabado[i][j] = -1
+
+    for i in range(len(lineup_domingo)):
+        for j in range(len(lineup_domingo[i])):
+            if lineup_domingo[i][j] != "" and asistencia_domingo[i][j] == -2:
+                asistencia_domingo[i][j] = -1
+
     return asistencia_sabado, asistencia_domingo, incidencias
-
-def guardarAsistencia(AS, AD, dicEscenarios, dicFranjas):
-    try:
-        with open("asistencias.csv", "w", encoding="utf-8") as archivo:
-            archivo.write("dia,codigo_escenario,codigo_franja,asistencia\n")
-            codigosEscenarios = list(dicEscenarios.keys())
-            codigosFranjas = list(dicFranjas.keys())
-
-            for i in range(len(AS)):
-                for j in range(len(AS[i])):
-                    if AS[i][j] != -2:
-                        archivo.write("SABADO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AS[i][j]) + "\n")
-
-            for i in range(len(AD)):
-                for j in range(len(AD[i])):
-                    if AD[i][j] != -2:
-                        archivo.write("DOMINGO," + codigosEscenarios[i] + "," + codigosFranjas[j] + "," + str(AD[i][j]) + "\n")
-    except OSError:
-        print("Error: no se pudo guardar asistencias.csv.")
 
 def cargarUsuarios():
     dicUsuarios = {}

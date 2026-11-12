@@ -43,9 +43,8 @@ def main():
             config = archivos.cargarConfiguracion()
             if config is not None:
                 dicArtistas, dicEscenarios, dicFranjas = funciones.crearDiccionariosAuxiliares(config)
-
                 lineup_sabado, lineup_domingo, incidenciasLineUp = archivos.cargarLineUp(dicArtistas, dicEscenarios, dicFranjas)
-                asistencia_sabado, asistencia_domingo, incidenciasAsistencia = archivos.cargarAsistencia(dicEscenarios, dicFranjas)
+                asistencia_sabado, asistencia_domingo, incidenciasAsistencia = archivos.cargarAsistencia(dicEscenarios, dicFranjas, lineup_sabado, lineup_domingo)
                 incidencias = incidenciasLineUp + incidenciasAsistencia
                 if len(incidencias) > 0:
                     print()

@@ -11,10 +11,13 @@ def validarFormatoCodigo(codigo, prefijo):
     if not re.match(patron, codigo):
         raise ValueError("Formato de código incorrecto.")
 
+
 def validarLista(config, clave, campos):
     lista = config[clave]
     codigosVistos = []
 
+    if type(lista) is not list:
+        raise ValueError(f"'{clave}' debe ser una lista.")
     if len(lista) == 0:
         raise ValueError(f"'{clave}' debe ser una lista con al menos un elemento.")
 
@@ -26,16 +29,23 @@ def validarLista(config, clave, campos):
         prefijo = "F"
 
     for item in lista:
-        for campo in campos:
-            if campo not in item or item[campo].strip() == "":
-                raise ValueError(f"El campo '{campo}' de '{clave}' es inválido.")
-        validarFormatoCodigo(item["codigo"], prefijo)
+        if type(item) is not dict:
+            raise ValueError(f"Cada elemento de '{clave}' debe ser un diccionario.")
 
+        for campo in campos:
+            if campo not in item or type(item[campo]) is not str or item[campo].strip() == "":
+                raise ValueError(f"El campo '{campo}' de '{clave}' es inválido.")
+
+        validarFormatoCodigo(item["codigo"], prefijo)
+        
         if item["codigo"] in codigosVistos:
             raise ValueError(f"El código {item['codigo']} está repetido en '{clave}'.")
         codigosVistos.append(item["codigo"])
 
 def validarConfiguracion(config):
+    if type(config) is not dict:
+        raise ValueError("La configuración debe ser un diccionario.")
+
     for clave in ("artistas", "escenarios", "franjas", "dias"):
         if clave not in config:
             raise ValueError(f"Falta la clave '{clave}' en la configuración.")
@@ -48,10 +58,12 @@ def validarConfiguracion(config):
         if "capacidad_maxima" not in escenario:
             raise ValueError("Falta la capacidad máxima de un escenario.")
         capacidad = escenario["capacidad_maxima"]
-        if capacidad <= 0:
-            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser mayor a cero.")
+        if type(capacidad) is not int or capacidad <= 0:
+            raise ValueError(f"La capacidad del escenario {escenario['codigo']} debe ser un entero mayor a cero.")
 
     dias = config["dias"]
+    if type(dias) is not list:
+        raise ValueError("'dias' debe ser una lista.")
     if len(dias) != 2:
         raise ValueError("'dias' debe contener sábado y domingo.")
     if dias != ["sabado", "domingo"]:
