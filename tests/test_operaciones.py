@@ -16,12 +16,11 @@ def test_validar_codigo_artista_correcto():
         "A09": "Red Hot Chori Peppers",
         "A10": "Paco Odioso",
         "A11": "Ariana Chiquita",
-        "A12": "Conejo Malo"    
+        "A12": "Conejo Malo"
     }
 
     resultado = validaciones.validarCodigoArtista("A01", artistas)
-
-    assert resultado == True
+    assert resultado is True
 
 def test_validar_codigo_escenario_incorrecto():
     escenarios = {
@@ -29,7 +28,6 @@ def test_validar_codigo_escenario_incorrecto():
         "E02": "Electronic Arena",
         "E03": "Mata Club"
     }
-
     with pytest.raises(ValueError):
         validaciones.validarCodigoEscenario("X01", escenarios)
 
@@ -38,9 +36,7 @@ def test_obtener_total_ignorar_asistencias_sin_registrar():
         [100, -1, 0],
         [-2, 250, 50]
     ]
-    
     resultado = funciones.obtenerTotalRecursivo(matriz)
-
     assert resultado == 400
 
 def test_obtener_convocatorias_acumula_por_artista():
@@ -72,9 +68,8 @@ def test_obtener_convocatorias_acumula_por_artista():
         asistencia_sabado,
         asistencia_domingo
     )
-
     assert resultado == {"A01": 300, "A02": 50}
-    
+
 def test_detectar_capacidad_superada():
     A = {
         "A01": "Lady Gagá",
@@ -93,6 +88,7 @@ def test_detectar_capacidad_superada():
         "F02": "Tarde",
         "F03": "Noche"
     }
+
     LUS = [["A01", "A02", ""]]
     LUD = [["", "", ""]]
 
@@ -106,7 +102,6 @@ def test_detectar_capacidad_superada():
     esperado = [
         ("SABADO", "Main Stage", "Mediodia", "Lady Gagá", 5500)
     ]
-
     assert resultado == esperado
 
 def test_diferenciar_asistencia_pendiente_y_cero():
@@ -172,9 +167,20 @@ def test_asistencia_igual_a_capacidad_maxima():
 
     assert resultado == []
 
-def test_guardar_y_cargar_asistencias():
-    escenarios = {"E01": {"nombre": "Main Stage", "capacidad_maxima": 5000}}
-    franjas = {"F01": "Tarde", "F02": "Noche"}
+def test_guardar_y_cargar_asistencias(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    escenarios = {
+        "E01": {
+            "nombre": "Main Stage",
+            "capacidad_maxima": 5000
+        }
+    }
+
+    franjas = {
+        "F01": "Tarde",
+        "F02": "Noche"
+    }
 
     asistencia_sabado = [[1500, -1]]
     asistencia_domingo = [[0, -2]]
@@ -182,9 +188,64 @@ def test_guardar_y_cargar_asistencias():
     lineup_sabado = [["A01", "A02"]]
     lineup_domingo = [["A03", ""]]
 
-    archivos.guardarAsistencia(asistencia_sabado, asistencia_domingo, escenarios, franjas)
-    sabado, domingo, incidencias = archivos.cargarAsistencia(escenarios, franjas, lineup_sabado, lineup_domingo)
+    archivos.guardarAsistencia(
+        asistencia_sabado,
+        asistencia_domingo,
+        escenarios,
+        franjas
+    )
+
+    sabado, domingo, incidencias = archivos.cargarAsistencia(
+        escenarios,
+        franjas,
+        lineup_sabado,
+        lineup_domingo
+    )
 
     assert sabado == [[1500, -1]]
     assert domingo == [[0, -2]]
     assert incidencias == []
+
+def test_no_hay_convocatorias_sin_asistencias_registradas():
+    artistas = {
+        "A01": "Lady Gagá",
+        "A02": "50 pesos"
+    }
+
+    lineup_sabado = [["A01", "A02"]]
+    lineup_domingo = [["", ""]]
+
+    asistencia_sabado = [[-1, -1]]
+    asistencia_domingo = [[-2, -2]]
+
+    resultado = funciones.obtenerConvocatorias(
+        artistas,
+        lineup_sabado,
+        lineup_domingo,
+        asistencia_sabado,
+        asistencia_domingo
+    )
+
+    assert resultado == {}
+
+def test_convocatoria_con_asistencia_cero():
+    artistas = {
+        "A01": "Lady Gagá",
+        "A02": "50 pesos"
+    }
+
+    lineup_sabado = [["A01", "A02"]]
+    lineup_domingo = [["", ""]]
+
+    asistencia_sabado = [[0, -1]]
+    asistencia_domingo = [[-2, -2]]
+
+    resultado = funciones.obtenerConvocatorias(
+        artistas,
+        lineup_sabado,
+        lineup_domingo,
+        asistencia_sabado,
+        asistencia_domingo
+    )
+
+    assert resultado == {"A01": 0}

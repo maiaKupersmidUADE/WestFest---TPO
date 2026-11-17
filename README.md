@@ -1,14 +1,5 @@
 WestFest es un sistema que permite gestionar el line up de un festival, registrar la asistencia de los distintos shows y obtener información sobre la convocatoria. El festival se desarrolla durante los días sábado y domingo, cuenta con diferentes escenarios y franjas horarias, y cada combinación de escenario y horario puede tener un artista asignado. El sistema permite administrar esta información y generar distintos informes a partir de las asistencias registradas.
 
-## Objetivos
-- Gestionar el line up del festival.
-- Asignar y modificar artistas.
-- Consultar la programación de cada día.
-- Buscar artistas dentro del line up.
-- Registrar y modificar la asistencia de los shows.
-- Obtener estadísticas de convocatoria.
-- Identificar los shows que superaron la capacidad máxima de los escenarios.
-
 ## Datos del festival
 - Días:
 * Sábado
@@ -19,18 +10,18 @@ WestFest es un sistema que permite gestionar el line up de un festival, registra
 * Tarde
 * Noche
 
-Escenarios:
-* Main Stage
-* Electronic Arena
-* Mata Club
+- Escenarios, cada uno con su propia capacidad máxima:
+| Escenario        | Capacidad máxima  |
+|------------------|-------------------|
+| Main Stage       | 5000 espectadores |
+| Electronic Arena | 3000 espectadores |
+| Mata Club        | 2000 espectadores |
 
-La capacidad máxima de los escenarios es gereal y de 1000 espectadores.
-
-## Artistas
+- Artistas
 Los artistas se identifican mediante un código único.
 | Código | Artista               |
 | -----  | --------------------- |
-|   A01  | Lady Gagáa            |
+|   A01  | Lady Gagá            |
 |   A02  | 50 pesos              |
 |   A03  | Me robaron entre 5    |
 |   A04  | Miley Ciruja          |
@@ -42,6 +33,8 @@ Los artistas se identifican mediante un código único.
 |   A10  | Paco Odioso           |
 |   A11  | Ariana Chiquita       |
 |   A12  | Conejo Malo           |
+
+La información de artistas, escenarios, franjas horarias y días se encuentra en `configuracion.json`.
 
 ## Funcionalidades
 El sistema cuenta con las siguientes opciones:
@@ -93,7 +86,13 @@ Para cada show se informa:
 10. Top 3 de franjas horarias con mayor asistencia
 Calcula la asistencia total de cada franja horaria considerando ambos días y muestra las tres franjas con mayor convocatoria.
 
-## Estructura de datos
+## Estructuras de datos
+El programa utiliza:
+- **Listas y matrices:** representan el lineup y las asistencias de cada día. Las filas corresponden a los escenarios y las columnas a las franjas horarias.
+- **Diccionarios:** permiten consultar artistas, escenarios y franjas mediante sus códigos, además de acumular las convocatorias.
+- **Conjuntos:** permiten trabajar con artistas asignados sin repetir elementos.
+- **Tuplas:** se utilizan para agrupar datos relacionados en determinados resultados.
+
 franjas = [
     ("F01", "Mediodia"),
     ("F02", "Tarde"),
@@ -161,45 +160,17 @@ A partir de las asistencias registradas, el sistema permite obtener:
 * Shows que superaron la capacidad máxima.
 * Top 3 de franjas horarias con mayor asistencia.
 
-
-# ALCANCE SEGUNDA ETAPA 
-
-# WestFest — Sistema de gestión de festivales
-
-## Descripción del proyecto
-
-WestFest es un sistema desarrollado en Python para gestionar la programación y la asistencia de un festival musical de dos días (sábado y domingo).
-
-El sistema permite administrar el lineup, registrar la cantidad de espectadores por presentación, consultar información de los artistas y generar estadísticas e informes para facilitar el seguimiento de la organización del festival.
-
-Este proyecto forma parte de la segunda etapa del Proyecto Integrador de Programación I, orientada a la incorporación de persistencia de datos, validaciones, manejo de excepciones y pruebas unitarias.
-
-## Funcionalidades principales
-
-- **Autenticación:** acceso mediante usuario y contraseña.
-- **Gestión del lineup:** asignar, modificar y consultar artistas por día, escenario y franja horaria.
-- **Búsqueda de artistas:** consultar todas las presentaciones de un artista durante el festival.
-- **Gestión de asistencias:** registrar y modificar la cantidad de espectadores de cada show.
-- **Estadísticas e informes:**
-  - Artista con mayor convocatoria.
-  - Asistencia total por día.
-  - Top 3 de artistas con mayor convocatoria.
-  - Top 3 de combinaciones de día y franja horaria con mayor asistencia.
-  - Shows que superaron la capacidad máxima de su escenario.
-- **Alertas:** detección de asistencias pendientes, capacidades superadas y registros inconsistentes.
-- **Generación de reportes:** creación de un archivo de texto con resultados e incidencias.
-
 ## Archivos del sistema
 
 El proyecto utiliza distintos archivos para separar la configuración, los datos persistentes y los reportes.
 
-| Archivo | Descripción |
-|---|---|
+| Archivo              | Descripción |
+|----------------------|----------------------------------------------------|
 | `configuracion.json` | Contiene los artistas, escenarios, franjas horarias y capacidades máximas. |
-| `usuarios.csv` | Almacena las credenciales necesarias para acceder al sistema. |
-| `lineup.csv` | Guarda la programación de los shows. |
-| `asistencias.csv` | Registra la cantidad de espectadores por presentación. |
-| `reporte.txt` | Contiene estadísticas, alertas e incidencias detectadas. |
+| `usuarios.csv`       | Almacena las credenciales necesarias para acceder al sistema. |
+| `lineup.csv`         | Guarda la programación de los shows. |
+| `asistencias.csv`    | Registra la cantidad de espectadores por presentación. |
+| `reporte.txt`        | Contiene estadísticas, alertas e incidencias detectadas. |
 
 Los archivos CSV permiten conservar la información entre ejecuciones. Al iniciar el programa, se recuperan los datos almacenados y se utilizan para reconstruir las estructuras necesarias.
 
@@ -221,10 +192,10 @@ El archivo `configuracion.json` es obligatorio. Si falta o contiene información
 La matriz de asistencia distingue los siguientes estados:
 
 | Valor | Significado |
-|---|---|
-| `-2` | No existe un show asignado. |
-| `-1` | Show asignado, con asistencia pendiente de registrar. |
-| `0` | Show realizado con cero espectadores registrados. |
+|-------|--------------------------------|
+| `-2`  | No existe un show asignado. |
+| `-1`  | Show asignado, con asistencia pendiente de registrar. |
+| `0`   | Show realizado con cero espectadores registrados. |
 | Mayor que `0` | Cantidad de espectadores registrada. |
 
 Esta distinción permite calcular correctamente las estadísticas y detectar presentaciones con información pendiente.
