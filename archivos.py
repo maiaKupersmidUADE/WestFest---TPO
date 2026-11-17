@@ -91,6 +91,8 @@ def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
         incidencias.append("No se encontró lineup.csv, se creó un archivo nuevo vacío.")
     except OSError:
         incidencias.append("No se pudo leer lineup.csv.")
+    except UnicodeDecodeError:
+        incidencias.append("lineup.csv tiene una codificación incorrecta.")
 
     return lineup_sabado, lineup_domingo, incidencias
 
@@ -203,6 +205,8 @@ def cargarAsistencia(dicEscenarios, dicFranjas, lineup_sabado, lineup_domingo):
 
     except OSError:
         incidencias.append("No se pudo leer asistencias.csv.")
+    except UnicodeDecodeError:
+        incidencias.append("lineup.csv tiene una codificación incorrecta.")
 
     # Los shows que no tenían una asistencia registrada quedan pendientes (-1).
     for i in range(len(lineup_sabado)):
@@ -245,6 +249,9 @@ def cargarUsuarios():
         return None
     except OSError:
         print("Error: no se pudo leer usuarios.csv.")
+        return None
+    except UnicodeDecodeError:
+        print("Error: usuarios.csv tiene una codificación incorrecta.")
         return None
     if len(dicUsuarios) == 0:
         print("Error: no hay usuarios registrados.")
