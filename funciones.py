@@ -277,15 +277,17 @@ def consultarArtistaMayorConvocatoria(A, LUS, LUD, AS, AD):
 def consultarTop3ArtistasMayorConvocatoria(A, LUS, LUD, AS, AD):
     convocatorias = obtenerConvocatorias(A, LUS, LUD, AS, AD)
     top3 = list(convocatorias.items())[:3]
-    print()
-    print("TOP 3 ARTISTAS CON MAYOR CONVOCATORIA")
-    print("-" * 45)
-
-    for i in range(len(top3)):
-        codigo = top3[i][0]
-        convocatoria = top3[i][1]
-        print(f"{i + 1}. {A[codigo]} - {convocatoria} espectadores")
+    if len(top3) == 0:
+        print("No hay artistas con asistencia registrada.")
+    else:
         print()
+        print("TOP 3 ARTISTAS CON MAYOR CONVOCATORIA")
+        print("-" * 45)
+        for i in range(len(top3)):
+            codigo = top3[i][0]
+            convocatoria = top3[i][1]
+            print(f"{i + 1}. {A[codigo]} - {convocatoria} espectadores")
+            print()
 
 def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H):
     shows_superados = []
@@ -489,9 +491,13 @@ def generarReporte(A, LUS, LUD, AS, AD, E, H, incidencias):
 
     top3Franjas = consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H)
     reporte += "\nTOP 3 DE DIAS Y FRANJAS HORARIAS\n"
-    for i in range(len(top3Franjas)):
-        franja = top3Franjas[i]
-        reporte += f"{i + 1}. {franja[0]} - {franja[1]}: {franja[2]} espectadores\n"
+
+    if len(top3Franjas) == 0:
+        reporte += "No hay asistencias registradas.\n"
+    else:
+        for i in range(len(top3Franjas)):
+            franja = top3Franjas[i]
+            reporte += f"{i + 1}. {franja[0]} - {franja[1]}: {franja[2]} espectadores\n"
 
     showsSuperados = consultarShowsSobrepasaronCapacidad(
         A, LUS, LUD, AS, AD, E, H

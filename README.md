@@ -202,14 +202,23 @@ Esta distinción permite calcular correctamente las estadísticas y detectar pre
 
 ## Pruebas unitarias
 
-El proyecto contempla siete pruebas unitarias para verificar las principales reglas y cálculos del sistema:
+El proyecto cuenta con diez pruebas unitarias desarrolladas con `pytest`, que permiten verificar las principales validaciones, operaciones y cálculos del sistema.
+
+Las pruebas contemplan los siguientes casos:
 
 1. Validación correcta del código de artista.
 2. Rechazo de códigos de escenario con formato incorrecto.
-3. Cálculo de asistencia total, excluyendo los valores `-1` y `-2`.
+3. Cálculo recursivo de la asistencia total, excluyendo los valores `-1` y `-2`.
 4. Acumulación de asistencias por artista.
-5. Detección de shows que superan la capacidad del escenario.
+5. Detección de shows que superan la capacidad máxima del escenario.
 6. Diferenciación entre asistencia pendiente (`-1`) y cero espectadores (`0`).
-7. Verificación del caso límite en el que la asistencia es exactamente igual a la capacidad máxima.
+7. Verificación de que una asistencia igual a la capacidad máxima no genere una alerta.
+8. Guardado y recuperación de las asistencias mediante archivos CSV.
+9. Verificación de que no se generen convocatorias cuando todavía no hay asistencias registradas.
+10. Verificación de que una asistencia de cero espectadores se incluya correctamente en las convocatorias.
 
-Las pruebas se ejecutan con `pytest` y no deben depender del ingreso de datos por teclado ni de los mensajes mostrados en pantalla.
+Para ejecutar las pruebas, ubicarse en la carpeta del proyecto y ejecutar:
+
+```bash
+pytest -v
+```
