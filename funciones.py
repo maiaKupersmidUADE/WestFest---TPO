@@ -405,24 +405,6 @@ def iniciarSesion(dicUsuarios):
 
     return acceso
 
-def consultarAsistenciaTotalPorDia(AS, AD):
-    total_sabado = 0
-    total_domingo = 0
-
-    # Sabado
-    for i in range(len(AS)):
-        for j in range(len(AS[i])):
-            if AS[i][j] >= 0:
-                total_sabado += AS[i][j]
-
-    # Domingo
-    for i in range(len(AD)):
-        for j in range(len(AD[i])):
-            if AD[i][j] >= 0:
-                total_domingo += AD[i][j]
-
-    return total_sabado, total_domingo
-
 def consultarShowsSinAsistencia(A, LUS, LUD, AS, AD, E, H):
     shows_sin_asistencia = []
 
