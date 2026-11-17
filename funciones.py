@@ -323,22 +323,31 @@ def consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H):
 
 def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
     asistencia_por_franja = []
+
+    # Sabado
     j = 0
     for codigo in H:
         total = 0
+        asistenciaRegistrada = False
         for i in range(len(AS)):
             if AS[i][j] >= 0:
                 total += AS[i][j]
-        asistencia_por_franja.append(("Sabado", H[codigo], total))
+                asistenciaRegistrada = True
+        if asistenciaRegistrada:
+            asistencia_por_franja.append(("Sabado", H[codigo], total))
         j += 1
 
+    # Domingo
     j = 0
     for codigo in H:
         total = 0
+        asistenciaRegistrada = False
         for i in range(len(AD)):
             if AD[i][j] >= 0:
                 total += AD[i][j]
-        asistencia_por_franja.append(("Domingo", H[codigo], total))
+                asistenciaRegistrada = True
+        if asistenciaRegistrada:
+            asistencia_por_franja.append(("Domingo", H[codigo], total))
         j += 1
 
     for i in range(len(asistencia_por_franja) - 1):
@@ -349,6 +358,7 @@ def consultarTop3FranjasHorariasMayorAsistencia(AS, AD, H):
         aux = asistencia_por_franja[i]
         asistencia_por_franja[i] = asistencia_por_franja[mayor]
         asistencia_por_franja[mayor] = aux
+
     top3 = asistencia_por_franja[:3]
     return top3
 
