@@ -211,3 +211,5 @@ Para ejecutar las pruebas, ubicarse en la carpeta del proyecto y ejecutar:
 ```bash
 pytest -v
 ```
+
+El archivo `conftest.py`, ubicado en la raíz del proyecto, permite ejecutar `pytest` directamente desde esa carpeta: hace que las pruebas de `tests/` puedan importar los módulos `validaciones.py`, `funciones.py` y `archivos.py`.
