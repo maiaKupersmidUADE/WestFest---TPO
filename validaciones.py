@@ -9,7 +9,7 @@ def validarContrasenia(contrasenia):
 def validarFormatoCodigo(codigo, prefijo):
     patron = "^" + prefijo + "[0-9]{2}$"
     if not re.fullmatch(patron, codigo):
-        raise ValueError("Formato de código incorrecto.")
+        raise ValueError(f"Formato de código incorrecto: debe ser la letra {prefijo} seguida de dos dígitos (ej: {prefijo}01).")
 
 def validarLista(config, clave, campos):
     lista = config[clave]
@@ -90,3 +90,4 @@ def validarCodigoEscenario(codigo, E):
     if codigo not in E:
         raise ValueError("El escenario no existe.")
     return True
+

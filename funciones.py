@@ -586,3 +586,24 @@ def generarReporte(A, LUS, LUD, AS, AD, E, H, incidencias):
         reporte += "No se detectaron situaciones que requieran atencion.\n"
 
     return reporte
+
+def mostrarAlertas(A, LUS, LUD, AS, AD, E, H, incidencias):
+    showsSuperados = consultarShowsSobrepasaronCapacidad(A, LUS, LUD, AS, AD, E, H)
+    showsPendientes = consultarShowsSinAsistencia(A, LUS, LUD, AS, AD, E, H)
+
+    print()
+    print("ALERTAS DEL FESTIVAL")
+    print("-" * 50)
+
+    print(f"Shows que superaron la capacidad: {len(showsSuperados)}")
+    for show in showsSuperados:
+        print(f"  - {show[0]}, {show[1]} ({show[2]}), {show[3]}: {show[4]} espectadores")
+
+    print(f"Shows sin asistencia registrada: {len(showsPendientes)}")
+    for show in showsPendientes:
+        print(f"  - {show[0]}, {show[1]} ({show[2]}), {show[3]}")
+
+    print(f"Registros inconsistentes detectados al cargar los archivos: {len(incidencias)}")
+    for mensaje in incidencias:
+        print("  -", mensaje)
+    print()

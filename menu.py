@@ -1,5 +1,6 @@
 import funciones
 import archivos
+import validaciones
 
 def opciones_menu():
     print("-" * 50)
@@ -65,11 +66,10 @@ def main():
                         funciones.consultarLineUp(lineup_sabado, lineup_domingo, dicEscenarios, dicArtistas, dicFranjas)
 
                     elif opcion == 3:
-                        codArtista = input("Codigo de Artista a buscar: ").upper()
-                        showsArtista = funciones.buscarArtista(dicArtistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
-                        if codArtista not in dicArtistas:
-                            print("El artista que busca no existe o se ingreso mal el codigo.")
-                        else:
+                        codArtista = input("Codigo de Artista a buscar: ").strip().upper()
+                        try:
+                            validaciones.validarCodigoArtista(codArtista, dicArtistas)
+                            showsArtista = funciones.buscarArtista(dicArtistas, codArtista, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
                             print(f"Artista: {dicArtistas[codArtista]}")
                             if len(showsArtista) == 0:
                                 print("El artista no tiene shows asignados.")
@@ -83,7 +83,8 @@ def main():
                                     print(show[0])
                                     print(f"Escenario: {show[1]} - Horario: {show[2]} - Asistencia: {txt_asistencia}")
                                     print()
-
+                        except ValueError as error:
+                            print(error)
                     elif opcion == 4:
                         funciones.registrarAsistencia(lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
                         archivos.guardarAsistencia(asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas)
@@ -136,6 +137,7 @@ def main():
                     opcion = menu()
 
                 reporte = funciones.generarReporte(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, incidencias)
+                funciones.mostrarAlertas(dicArtistas, lineup_sabado, lineup_domingo, asistencia_sabado, asistencia_domingo, dicEscenarios, dicFranjas, incidencias)
                 archivos.guardarReporte(reporte)
                 print("Gracias por usar nuestro sistema, hasta la proxima!")
                 print()

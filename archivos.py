@@ -15,6 +15,8 @@ def cargarConfiguracion():
         print("Error: no se pudo abrir el archivo.")
     except ValueError as error:
         print(f"Error de configuración: {error}")
+    except (TypeError, AttributeError, KeyError):
+        print("Error de configuración: la estructura del archivo no es válida.")
     return None
 
 def cargarLineUp(dicArtistas, dicEscenarios, dicFranjas):
@@ -206,7 +208,7 @@ def cargarAsistencia(dicEscenarios, dicFranjas, lineup_sabado, lineup_domingo):
     except OSError:
         incidencias.append("No se pudo leer asistencias.csv.")
     except UnicodeDecodeError:
-        incidencias.append("lineup.csv tiene una codificación incorrecta.")
+        incidencias.append("asistencias.csv tiene una codificación incorrecta.")
 
     # Los shows que no tenían una asistencia registrada quedan pendientes (-1).
     for i in range(len(lineup_sabado)):
