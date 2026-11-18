@@ -161,6 +161,8 @@ El proyecto utiliza distintos archivos para separar la configuración, los datos
 
 Los archivos CSV permiten conservar la información entre ejecuciones. Al iniciar el programa, se recuperan los datos almacenados y se utilizan para reconstruir las estructuras necesarias.
 
+Para utilizar el sistema, el usuario debe iniciar sesión con sus credenciales registradas en usuarios.csv. El acceso se valida mediante el nombre de usuario y la contraseña, cuyo formato se controla utilizando expresiones regulares.
+
 El archivo `configuracion.json` es obligatorio. Si falta o contiene información inválida, el sistema informa el error y finaliza la ejecución sin sobrescribirlo.
 
 ## Tecnologías y conceptos aplicados
