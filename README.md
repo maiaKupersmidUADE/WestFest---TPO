@@ -83,8 +83,8 @@ Para cada show se informa:
 * Artista.
 * Cantidad de espectadores.
 
-10. Top 3 de franjas horarias con mayor asistencia
-Calcula la asistencia total de cada franja horaria considerando ambos días y muestra las tres franjas con mayor convocatoria.
+10. Top 3 de combinaciones de día y franja horaria con mayor asistencia
+Calcula la asistencia total de cada combinación de día y franja horaria, considerando los shows realizados durante el sábado y el domingo, y muestra las tres combinaciones con mayor convocatoria.
 
 ## Estructuras de datos
 El programa utiliza:
@@ -92,18 +92,6 @@ El programa utiliza:
 - **Diccionarios:** permiten consultar artistas, escenarios y franjas mediante sus códigos, además de acumular las convocatorias.
 - **Conjuntos:** permiten trabajar con artistas asignados sin repetir elementos.
 - **Tuplas:** se utilizan para agrupar datos relacionados en determinados resultados.
-
-franjas = [
-    ("F01", "Mediodia"),
-    ("F02", "Tarde"),
-    ("F03", "Noche")
-]
-
-escenarios = [
-    ("E01", "Main Stage"),
-    ("E02", "Electronic Arena"),
-    ("E03", "Mata Club")
-]
 
 Se utilizan dos matrices, una para cada día:
 - lineup_sabado
@@ -122,12 +110,7 @@ Los valores utilizados son:
 | `0` o mayor | Cantidad de espectadores registrada                   |
 
 ### `menu.py`
-Contiene:
-* Los datos iniciales del festival.
-* Las matrices del line up.
-* Las matrices de asistencia.
-* El menú principal.
-* La interacción con el usuario.
+Contiene el menú principal y coordina la ejecución del sistema. Se encarga de iniciar la sesión del usuario, cargar los datos necesarios desde los archivos y permitir el acceso a las distintas funcionalidades.
 
 ### `funciones.py`
 Contiene las funciones encargadas de:
@@ -152,13 +135,17 @@ El sistema valida diferentes situaciones para evitar datos incorrectos:
 * Modificación de una asistencia que todavía no fue registrada.
 
 ## Informes
-A partir de las asistencias registradas, el sistema permite obtener:
-* Artista con mayor convocatoria.
-* Asistencia total del sábado.
-* Asistencia total del domingo.
-* Top 3 de artistas con mayor convocatoria.
-* Shows que superaron la capacidad máxima.
-* Top 3 de franjas horarias con mayor asistencia.
+El sistema permite consultar estadísticas y generar un reporte general en el archivo reporte.txt.
+Los informes incluyen:
+- Artista con mayor convocatoria.
+- Asistencia total por día.
+- Top 3 de artistas con mayor convocatoria.
+- Shows que superaron la capacidad máxima.
+- Top 3 de combinaciones de día y franja horaria con mayor asistencia.
+- Shows que todavía no tienen asistencia registrada.
+- Artistas que no tienen presentaciones asignadas.
+- Alertas e incidencias detectadas durante la ejecución.
+- Recomendaciones a partir de la información registrada.
 
 ## Archivos del sistema
 
